@@ -146,6 +146,8 @@
     nerd-fonts.jetbrains-mono
   ];
 
+security.polkit.enable = true;
+
 systemd.user.services.polkit-gnome-authentication-agent-1 = {
   description = "polkit-gnome-authentication-agent-1";
   wantedBy = [ "graphical-session.target" ];
@@ -159,8 +161,6 @@ systemd.user.services.polkit-gnome-authentication-agent-1 = {
     TimeoutStopSec = 10;
   };
 };
-
-security.polkit.enable = true;
 
   #### Do not change ###########################################
 
