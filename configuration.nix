@@ -132,6 +132,8 @@
 
     # files
     xfce.thunar
+    thunar-volman
+    thunar-archive-plugin
 
     # toys
     cmatrix
