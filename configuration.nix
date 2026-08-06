@@ -109,6 +109,7 @@
     neovim
     git
     wget
+    firefox
 
     # shell + prompt
     fish
