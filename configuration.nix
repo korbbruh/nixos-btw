@@ -129,6 +129,7 @@
     btop
     fastfetch
     powertop
+    swayosd
 
     # files
     xfce.thunar
@@ -158,6 +159,9 @@ systemd.user.services.polkit-gnome-authentication-agent-1 = {
     TimeoutStopSec = 10;
   };
 };
+
+security.polkit.enable = true;
+
   #### Do not change ###########################################
 
   system.stateVersion = "26.05";
