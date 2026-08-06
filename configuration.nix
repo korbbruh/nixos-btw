@@ -134,6 +134,7 @@
     xfce.thunar
     thunar-volman
     thunar-archive-plugin
+    polkit_gnome
 
     # toys
     cmatrix
