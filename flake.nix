@@ -16,7 +16,10 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          inputs.nixos-hardware.nixosModules.asus-zephyrus-ga503
+          # PARKED: this profile is what pulls in the NVIDIA driver.
+          # Re-enable once the download problem is sorted.
+          # inputs.nixos-hardware.nixosModules.asus-zephyrus-ga503
+
           ./configuration.nix
         ];
       };
