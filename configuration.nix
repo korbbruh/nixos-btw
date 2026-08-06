@@ -5,6 +5,12 @@
 { config, pkgs, inputs, ... }:
 
 {
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.open = true;  # see the note above
+}
+
+{
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
