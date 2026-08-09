@@ -130,6 +130,7 @@
     fastfetch
     powertop
     swayosd
+    kdePackages.polkit-kde-agent-1
 
     # toys
     cmatrix
