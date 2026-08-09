@@ -130,6 +130,7 @@
     fastfetch
     powertop
     swayosd
+    tumbler
     kdePackages.polkit-kde-agent-1
 
     # toys
@@ -152,6 +153,7 @@ xdg.portal = {
   config.common.default = "*";
 };
 
+services.tumbler.enable = true;
 security.polkit.enable = true;
 services.asusd.enable = true;
 services.power-profiles-daemon.enable = true;
