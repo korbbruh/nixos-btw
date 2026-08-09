@@ -146,6 +146,12 @@ programs.thunar = {
   plugins = with pkgs.xfce; [ thunar-volman thunar-archive-plugin ];
 };
 
+xdg.portal = {
+  enable = true;
+  wlr.enable = true;
+  config.common.default = "*";
+};
+
 security.polkit.enable = true;
 services.asusd.enable = true;
 services.power-profiles-daemon.enable = true;
