@@ -147,6 +147,7 @@
 
     # toys
     cmatrix
+    xwayland-satellite
     tty-clock
   ];
 
@@ -172,6 +173,33 @@ services.tumbler.enable = true;
 security.polkit.enable = true;
 services.asusd.enable = true;
 services.power-profiles-daemon.enable = true;
+
+systemd.user.services.swayosd = {
+  description = "SwayOSD server";
+  wantedBy = [ "graphical-session.target" ];
+  after = [ "graphical-session.target" ];
+  serviceConfig = {
+    ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
+    Restart = "always";
+    RestartSec = 1;
+  };
+};
+
+systemd.user.services.xwayland-satellite = {
+  description = "Xwayland outside your Wayland";
+  wantedBy = [ "graphical-session.target" ];
+  after = [ "graphical-session.target" ];
+  serviceConfig = {
+    ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :2";
+    ExecStartPost = "${pkgs.writeShellScript "xrdb-dpi" ''
+      sleep 1
+      DISPLAY=:2 ${pkgs.xorg.xrdb}/bin/xrdb -merge <<< "Xft.dpi: 144"
+    ''}";
+    Restart = "always";
+    RestartSec = 1;
+  };
+};
+
 systemd.user.services.polkit-kde-agent = {
   description = "polkit-kde-authentication-agent-1";
   wantedBy = [ "graphical-session.target" ];

@@ -2,10 +2,14 @@
   description = "MangoWM on NixOS";
 
   inputs = {
-  nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     mangowm = {
       url = "github:mangowm/mango";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -16,10 +20,13 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          # PARKED: this profile is what pulls in the NVIDIA driver.
-          # Re-enable once the download problem is sorted.
-           inputs.nixos-hardware.nixosModules.asus-zephyrus-ga503
-
+          inputs.nixos-hardware.nixosModules.asus-zephyrus-ga503
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.kl = import ./home.nix;
+          }
           ./configuration.nix
         ];
       };
