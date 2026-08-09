@@ -125,6 +125,7 @@
     bluetui
     pamixer
     flatpak
+    jq
     # wayland / rice stack
     rofi
     waybar
