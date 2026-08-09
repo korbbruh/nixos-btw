@@ -126,6 +126,11 @@
     pamixer
     flatpak
     jq
+    wl-clip-persist
+    swaylock
+    swayidle
+    libnotify
+    wlsunset
     # wayland / rice stack
     rofi
     waybar
