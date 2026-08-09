@@ -170,18 +170,22 @@ systemd.user.services.polkit-kde-agent = {
   };
 };
 
-waybar = prev.waybar.overrideAttrs (old: {
-  version = "0.15.0-unstable-2026-08-04";
-  src = prev.fetchFromGitHub {
-    owner = "Alexays";
-    repo = "Waybar";
-    rev = "084d87401d0a91182c16aa7e5f674a7dde767185";
-    hash = "sha256-POvwObPOp6O14n6KYWNLp2Y3paunA5f8U1NCaodNFcc=";
-  };
-  buildInputs = (old.buildInputs or []) ++ [ prev.modemmanager ];
-  mesonFlags = (old.mesonFlags or []) ++ [ "-Dmango=true" ];
-  doInstallCheck = false;
-});
+nixpkgs.overlays = [
+  (final: prev: {
+    waybar = prev.waybar.overrideAttrs (old: {
+      version = "0.15.0-unstable-2026-08-04";
+      src = prev.fetchFromGitHub {
+        owner = "Alexays";
+        repo = "Waybar";
+        rev = "084d87401d0a91182c16aa7e5f674a7dde767185";
+        hash = "sha256-POvwObPOp6O14n6KYWNLp2Y3paunA5f8U1NCaodNFcc=";
+      };
+      buildInputs = (old.buildInputs or [ ]) ++ [ prev.modemmanager ];
+      mesonFlags = (old.mesonFlags or [ ]) ++ [ "-Dmango=true" ];
+      doInstallCheck = false;
+    });
+  })
+];
 
   #### Do not change ###########################################
 
