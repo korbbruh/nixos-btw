@@ -131,12 +131,6 @@
     powertop
     swayosd
 
-    # files
-    xfce.thunar
-    thunar-volman
-    thunar-archive-plugin
-    polkit_gnome
-
     # toys
     cmatrix
     tty-clock
@@ -145,6 +139,11 @@
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
+
+programs.thunar = {
+  enable = true;
+  plugins = with pkgs.xfce; [ thunar-volman thunar-archive-plugin ];
+};
 
 security.polkit.enable = true;
 services.asusd.enable = true;
