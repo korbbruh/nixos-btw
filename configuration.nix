@@ -165,6 +165,8 @@ xdg.portal = {
   config.common.default = "*";
 };
 
+hardware.bluetooth.enable = true;
+services.blueman.enable = true;
 services.flatpak.enable = true;
 services.tumbler.enable = true;
 security.polkit.enable = true;
