@@ -127,7 +127,6 @@
     flatpak
     jq
     wl-clip-persist
-    swaylock
     swayidle
     libnotify
     wlsunset
@@ -142,6 +141,7 @@
     fastfetch
     powertop
     swayosd
+    swaylock-effects
     tumbler
     kdePackages.polkit-kde-agent-1
 
@@ -157,7 +157,7 @@
 
 programs.thunar = {
   enable = true;
-  plugins = with pkgs.xfce; [ thunar-volman thunar-archive-plugin ];
+  plugins = with pkgs; [ thunar-volman thunar-archive-plugin ];
 };
 
 xdg.portal = {
@@ -193,7 +193,7 @@ systemd.user.services.xwayland-satellite = {
     ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :2";
     ExecStartPost = "${pkgs.writeShellScript "xrdb-dpi" ''
       sleep 1
-      DISPLAY=:2 ${pkgs.xorg.xrdb}/bin/xrdb -merge <<< "Xft.dpi: 144"
+      DISPLAY=:2 ${pkgs.xrdb}/bin/xrdb -merge <<< "Xft.dpi: 144"
     ''}";
     Restart = "always";
     RestartSec = 1;
