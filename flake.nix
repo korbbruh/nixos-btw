@@ -2,7 +2,7 @@
   description = "MangoWM on NixOS";
 
   inputs = {
-    nixpkgs.url = "/nixpkgs/nixos-unstable";
+  nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     mangowm = {
       url = "github:mangowm/mango";
