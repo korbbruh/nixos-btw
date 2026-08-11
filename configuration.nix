@@ -58,7 +58,7 @@ services.greetd = {
       user = "kl"; # auto-login on first start, no password required
     };
     default_session = {
-      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd mango";
+      command = "${pkgs.tuigreet}/bin/tuigreet --cmd mango";
       user = "greeter";
     };
   };
