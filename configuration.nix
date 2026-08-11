@@ -143,6 +143,7 @@ services.greetd = {
     swaybg
     btop
     greetd
+    tuigreet
     fastfetch
     powertop
     swayosd
