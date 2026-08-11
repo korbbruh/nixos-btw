@@ -11,9 +11,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Deliberately NOT using linuxPackages_latest.
-  # The newest mainline kernel regularly outruns the proprietary
-  # NVIDIA module and breaks the build. Default kernel is fine.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   #### Networking ##############################################
 
