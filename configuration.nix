@@ -183,7 +183,7 @@ xdg.portal = {
 };
 
 boot.consoleLogLevel = 0;
-boot.kernelParams = [ "quiet" "udev.log_level=3" ];
+boot.kernelParams = [ "quiet" "udev.log_level=3","amdgpu.backlight=0" ];
 
 hardware.bluetooth.enable = true;
 services.blueman.enable = true;
@@ -215,8 +215,6 @@ systemd.services.swayosd-libinput-backend = {
     RestartSec = 1;
   };
 };
-
-boot.kernelParams = [ "amdgpu.backlight=0" ];
 
 systemd.user.services.xwayland-satellite = {
   description = "Xwayland outside your Wayland";
