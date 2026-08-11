@@ -143,6 +143,7 @@
     xwayland-satellite
     grim
     slurp
+    wlogout
     brightnessctl
 ];
 
