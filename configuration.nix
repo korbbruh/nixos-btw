@@ -183,7 +183,7 @@ xdg.portal = {
 };
 
 boot.consoleLogLevel = 0;
-boot.kernelParams = [ "quiet" "udev.log_level=3","amdgpu.backlight=0" ];
+boot.kernelParams = [ "quiet" "udev.log_level=3" "amdgpu.backlight=0" ];
 
 hardware.bluetooth.enable = true;
 services.blueman.enable = true;
