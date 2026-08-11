@@ -113,8 +113,6 @@ services.greetd = {
     options = "--delete-older-than 30d";
   };
 
-
-
 security.pam.services.swaylock = { };
 
   #### Packages ################################################
@@ -140,9 +138,6 @@ security.pam.services.swaylock = { };
     wl-clip-persist
     swayidle
     libnotify
-    rofi-network-manager
-    rofi-power-menu
-    rofi-screenshot
     wlsunset
     rofi
     waybar
@@ -150,7 +145,6 @@ security.pam.services.swaylock = { };
     swaybg
     btop
     greetd
-    adwaita-icon-theme
     papirus-icon-theme
     papirus-folders
     tuigreet
