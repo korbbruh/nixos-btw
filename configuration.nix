@@ -104,19 +104,14 @@
   #### Packages ################################################
 
   environment.systemPackages = with pkgs; [
-    # editors / core
     vim
     neovim
     git
     wget
     firefox
-
-    # shell + prompt
     fish
     starship
     eza
-
-    # terminals
     foot
     nwg-look
     lm_sensors
@@ -130,13 +125,10 @@
     swayidle
     libnotify
     wlsunset
-    # wayland / rice stack
     rofi
     waybar
     mako
     swaybg
-
-    # system tools
     btop
     fastfetch
     powertop
@@ -144,11 +136,11 @@
     swaylock-effects
     tumbler
     kdePackages.polkit-kde-agent-1
-
-    # toys
-    cmatrix
+    cliphist
+    wl-clipboard
+    sway-audio-idle-inhibit
+    bemoji
     xwayland-satellite
-    tty-clock
   ];
 
   fonts.packages = with pkgs; [
