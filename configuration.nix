@@ -50,7 +50,19 @@
   # this one, and greetd's hardcoded "--cmd mango" meant a broken
   # Mango left you with no way back into a working session.
   # SDDM gives a session dropdown, so Plasma is always a fallback.
-  services.displayManager.sddm.enable = true;
+services.greetd = {
+  enable = true;
+  settings = {
+    initial_session = {
+      command = "mango";
+      user = "kl"; # auto-login on first start, no password required
+    };
+    default_session = {
+      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd mango";
+      user = "greeter";
+    };
+  };
+};
   services.desktopManager.plasma6.enable = true;
 
   programs.mango.enable = true;
@@ -130,6 +142,7 @@
     mako
     swaybg
     btop
+    greetd
     fastfetch
     powertop
     swayosd
