@@ -182,6 +182,9 @@ xdg.portal = {
   config.common.default = "*";
 };
 
+boot.consoleLogLevel = 0;
+boot.kernelParams = [ "quiet" "udev.log_level=3" ];
+
 hardware.bluetooth.enable = true;
 services.blueman.enable = true;
 services.flatpak.enable = true;
@@ -197,6 +200,18 @@ systemd.user.services.swayosd = {
   serviceConfig = {
     ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
     Restart = "always";
+    RestartSec = 1;
+  };
+};
+
+systemd.services.swayosd-libinput-backend = {
+  description = "SwayOSD libinput backend";
+  wantedBy = [ "graphical.target" ];
+  partOf = [ "graphical.target" ];
+  serviceConfig = {
+    Type = "simple";
+    ExecStart = "${pkgs.swayosd}/bin/swayosd-libinput-backend";
+    Restart = "on-failure";
     RestartSec = 1;
   };
 };
