@@ -216,6 +216,8 @@ systemd.services.swayosd-libinput-backend = {
   };
 };
 
+boot.kernelParams = [ "amdgpu.backlight=0" ];
+
 systemd.user.services.xwayland-satellite = {
   description = "Xwayland outside your Wayland";
   wantedBy = [ "graphical-session.target" ];
