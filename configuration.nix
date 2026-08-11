@@ -113,6 +113,12 @@ services.greetd = {
     options = "--delete-older-than 30d";
   };
 
+nix.settings.access-tokens = [
+  "github.com=ghp_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"
+];
+
+security.pam.services.swaylock = { };
+
   #### Packages ################################################
 
   environment.systemPackages = with pkgs; [
