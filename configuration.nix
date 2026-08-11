@@ -113,9 +113,7 @@ services.greetd = {
     options = "--delete-older-than 30d";
   };
 
-nix.settings.access-tokens = [
-  "github.com=ghp_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"
-];
+
 
 security.pam.services.swaylock = { };
 
@@ -142,6 +140,9 @@ security.pam.services.swaylock = { };
     wl-clip-persist
     swayidle
     libnotify
+    rofi-network-manager
+    rofi-power-menu
+    rofi-screenshot
     wlsunset
     rofi
     waybar
@@ -149,6 +150,9 @@ security.pam.services.swaylock = { };
     swaybg
     btop
     greetd
+    adwaita-icon-theme
+    papirus-icon-theme
+    papirus-folders
     tuigreet
     fastfetch
     powertop
@@ -171,11 +175,6 @@ security.pam.services.swaylock = { };
     nerd-fonts.jetbrains-mono
   ];
 
-programs.thunar = {
-  enable = true;
-  plugins = with pkgs; [ thunar-volman thunar-archive-plugin ];
-};
-
 xdg.portal = {
   enable = true;
   wlr.enable = true;
@@ -183,7 +182,7 @@ xdg.portal = {
 };
 
 boot.consoleLogLevel = 0;
-boot.kernelParams = [ "quiet" "udev.log_level=3" "amdgpu.backlight=0" ];
+boot.kernelParams = [ "quiet" "udev.log_level=3" ];
 
 services.supergfxd.enable = true;
 hardware.bluetooth.enable = true;
