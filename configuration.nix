@@ -141,7 +141,10 @@
     sway-audio-idle-inhibit
     bemoji
     xwayland-satellite
-  ];
+    grim
+    slurp
+    brightnessctl
+];
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
