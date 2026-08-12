@@ -160,8 +160,7 @@ security.pam.services.swaylock = { };
     bemoji
     xwayland-satellite
     grim
-    slurp
-    wlogout
+    slurp 
     brightnessctl
 ];
 
