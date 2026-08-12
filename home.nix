@@ -21,9 +21,9 @@
 
     shellAliases = {
       ls = "eza --icons --group-directories-first -1";
-      nixeditconf "nvim ~/nixos/configuration.nix"
-      nixeditflake "nvim ~/nixos/flake.nix";
-      nixedithome "nvim ~/nixos/home.nix";
+      nixeditconf = "nvim ~/nixos/configuration.nix";
+      nixeditflake = "nvim ~/nixos/flake.nix";
+      nixedithome =  "nvim ~/nixos/home.nix";
     };
 
     shellAbbrs = {
