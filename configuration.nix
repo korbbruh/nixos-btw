@@ -152,7 +152,11 @@ security.pam.services.swaylock = { };
     swayosd
     swaylock-effects
     tumbler
-    apple-cursor
+    bibata-cursors
+    thunar
+    thunar-archive-plugin
+    thunar-vcs-plugin
+    thunar-volman
     kdePackages.polkit-kde-agent-1
     cliphist
     wl-clipboard
