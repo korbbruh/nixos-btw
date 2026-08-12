@@ -145,6 +145,7 @@ security.pam.services.swaylock = { };
     greetd
     adw-gtk3
     glib
+    make
     papirus-icon-theme
     papirus-folders
     tuigreet
