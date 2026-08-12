@@ -157,7 +157,7 @@ security.pam.services.swaylock = { };
     thunar-archive-plugin
     thunar-vcs-plugin
     thunar-volman
-    dolphin
+    kdePackages.dolphin
     kdePackages.polkit-kde-agent-1
     cliphist
     wl-clipboard
