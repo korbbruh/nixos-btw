@@ -44,10 +44,6 @@
     variant = "";
   };
 
-  # SDDM only. The greetd block that used to be here fought with
-  # this one, and greetd's hardcoded "--cmd mango" meant a broken
-  # Mango left you with no way back into a working session.
-  # SDDM gives a session dropdown, so Plasma is always a fallback.
 services.greetd = {
   enable = true;
   settings = {
@@ -107,7 +103,7 @@ services.greetd = {
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 30d";
+    options = "--delete-older-than 5d";
   };
 
 security.pam.services.swaylock = { };
@@ -143,7 +139,6 @@ security.pam.services.swaylock = { };
     btop
     greetd
     adw-gtk3
-    glib
     papirus-icon-theme
     papirus-folders
     tuigreet
