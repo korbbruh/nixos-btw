@@ -152,6 +152,7 @@ security.pam.services.swaylock = { };
     swayosd
     swaylock-effects
     tumbler
+    apple-cursor
     kdePackages.polkit-kde-agent-1
     cliphist
     wl-clipboard
