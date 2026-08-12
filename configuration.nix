@@ -61,7 +61,6 @@ services.greetd = {
     };
   };
 };
-  services.desktopManager.plasma6.enable = true;
 
   programs.mango.enable = true;
 
