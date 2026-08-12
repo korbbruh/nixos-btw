@@ -143,6 +143,7 @@ security.pam.services.swaylock = { };
     swaybg
     btop
     greetd
+    adw-gtk3
     papirus-icon-theme
     papirus-folders
     tuigreet
