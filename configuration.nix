@@ -103,7 +103,7 @@ services.greetd = {
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 5d";
+    options = "--delete-older-than 14d";
   };
 
 security.pam.services.swaylock = { };
@@ -148,11 +148,8 @@ security.pam.services.swaylock = { };
     swaylock-effects
     tumbler
     bibata-cursors
-    thunar
-    thunar-archive-plugin
-    thunar-vcs-plugin
-    thunar-volman
     kdePackages.dolphin
+    satty
     kdePackages.polkit-kde-agent-1
     cliphist
     wl-clipboard
@@ -171,7 +168,8 @@ security.pam.services.swaylock = { };
 xdg.portal = {
   enable = true;
   wlr.enable = true;
-  config.common.default = "*";
+  extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  config.common.default = [ "wlr" "gtk" ];
 };
 
 boot.consoleLogLevel = 0;
@@ -184,6 +182,12 @@ services.flatpak.enable = true;
 services.tumbler.enable = true;
 security.polkit.enable = true;
 services.asusd.enable = true;
+services.gvfs.enable = true;
+services.udisks2.enable = true;
+programs.thunar = {
+  enable = true;
+  plugins = with pkgs; [ thunar-archive-plugin thunar-vcs-plugin thunar-volman ];
+};
 services.power-profiles-daemon.enable = true;
 
 systemd.user.services.swayosd = {
