@@ -175,7 +175,7 @@ xdg.portal = {
 };
 
 boot.consoleLogLevel = 0;
-boot.kernelParams = [ "quiet" "udev.log_level=3" ];
+boot.kernelParams = [ "quiet" "udev.log_level=3" "amdgpu.dcdebugmask=0x40000" ];
 
 services.supergfxd.enable = true;
 hardware.bluetooth.enable = true;
