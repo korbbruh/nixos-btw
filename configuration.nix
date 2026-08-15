@@ -156,7 +156,8 @@ security.pam.services.swaylock = { };
     bemoji
     xwayland-satellite
     grim
-    slurp 
+    slurp
+    wiremix
     brightnessctl
 ];
 

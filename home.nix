@@ -6,6 +6,7 @@
   programs.home-manager.enable = true;
 
   programs.starship.enable = true;
+  services.ssh-agent.enable = true;
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
@@ -44,6 +45,7 @@
     };
 
     shellAbbrs = {
+      dot = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME";
       lg = "lazygit";
       gd = "git diff";
       ga = "git add .";
