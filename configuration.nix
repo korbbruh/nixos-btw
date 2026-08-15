@@ -1,11 +1,17 @@
 { config, pkgs, inputs, ... }:
-
+let 
+  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/arhive/release-26.11.tar.gz;
+in
 {
   imports = [
     ./hardware-configuration.nix
+    (import "$(home-manager)/nixos")
     inputs.mangowm.nixosModules.mango
   ];
-
+  home-manager.useUserpackages = true;
+  home-manager.useGlobalPkgs = true;
+  home-manager.backupFileExtension = "backup"; 
+  home-manager.users.kl = import ./home.nix;
   #### Boot ####################################################
 
   boot.loader.systemd-boot.enable = true;
@@ -147,7 +153,6 @@ security.pam.services.swaylock = { };
     swayosd
     swaylock-effects
     tumbler
-    bibata-cursors
     kdePackages.dolphin
     satty
     kdePackages.polkit-kde-agent-1
