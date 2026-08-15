@@ -154,6 +154,7 @@ security.pam.services.swaylock = { };
     swaylock-effects
     tumbler
     kdePackages.dolphin
+    glib
     satty
     kdePackages.polkit-kde-agent-1
     cliphist
@@ -193,6 +194,7 @@ programs.thunar = {
   enable = true;
   plugins = with pkgs; [ thunar-archive-plugin thunar-vcs-plugin thunar-volman ];
 };
+programs.dconf.enable = true;
 services.power-profiles-daemon.enable = true;
 
 systemd.user.services.swayosd = {
