@@ -176,6 +176,12 @@ xdg.portal = {
 boot.consoleLogLevel = 0;
 boot.kernelParams = [ "quiet" "udev.log_level=3" "amdgpu.dcdebugmask=0x40000" ];
 
+services.logind.settings.Login = {
+  HandleLidSwitch = "suspend";
+  HandleLidSwitchExternalPower = "suspend";
+  HandleLidSwitchDocked = "ignore";
+};
+powerManagement.enable = true;
 services.supergfxd.enable = true;
 hardware.bluetooth.enable = true;
 services.blueman.enable = true;
