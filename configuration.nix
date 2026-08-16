@@ -158,6 +158,7 @@ security.pam.services.swaylock = { };
     grim
     slurp
     wiremix
+    upower
     brightnessctl
 ];
 
