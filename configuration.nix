@@ -185,9 +185,14 @@ security.polkit.enable = true;
 services.asusd.enable = true;
 services.gvfs.enable = true;
 services.upower.enable = true;
-services.thermald.enable = true;
 powerManagement.powertop.enable = true;
 services.udisks2.enable = true;
+hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    powerManagement.finegrained = true; # Enables Runtime D3 (dGPU sleeping on battery)
+    open = true; # Set to true if running kernel >= 6.11 on supported Ampere/Ada cards
+  };
 programs.thunar = {
   enable = true;
   plugins = with pkgs; [ thunar-archive-plugin thunar-vcs-plugin thunar-volman ];
