@@ -184,6 +184,7 @@ services.tumbler.enable = true;
 security.polkit.enable = true;
 services.asusd.enable = true;
 services.gvfs.enable = true;
+services.upower.enable = true;
 services.udisks2.enable = true;
 programs.thunar = {
   enable = true;
