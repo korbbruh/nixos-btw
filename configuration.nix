@@ -272,6 +272,19 @@ systemd.user.services.polkit-kde-agent = {
   };
 };
 
+systemd.user.services.swayidle = {
+  description = "Idle management";
+  after = [ "graphical-session.target" ];
+  startLimitIntervalSec = 0;
+  path = with pkgs; [ swaylock-effects systemd ];
+  serviceConfig = {
+    Type = "simple";
+    ExecStart = "${pkgs.swayidle}/bin/swayidle timeout 450 'swaylock -f' timeout 660 'mmsg dispatch disable_monitor,eDP-1' resume 'mmsg dispatch enable_monitor,eDP-1' timeout 900 'systemctl suspend' before-sleep 'swaylock -f'";
+    Restart = "always";
+    RestartSec = 3;
+  };
+};
+
   #### Do not change ###########################################
 
   system.stateVersion = "26.05";
