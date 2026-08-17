@@ -128,6 +128,7 @@ security.pam.services.swaylock = { };
     pamixer
     flatpak
     jq
+    wlr-randr
     wl-clip-persist
     swayidle
     libnotify
@@ -276,10 +277,9 @@ systemd.user.services.swayidle = {
   description = "Idle management";
   after = [ "graphical-session.target" ];
   startLimitIntervalSec = 0;
-  path = with pkgs; [ swaylock-effects systemd ];
   serviceConfig = {
     Type = "simple";
-    ExecStart = "${pkgs.swayidle}/bin/swayidle timeout 450 'swaylock -f' timeout 660 'mmsg dispatch disable_monitor,eDP-1' resume 'mmsg dispatch enable_monitor,eDP-1' timeout 900 'systemctl suspend' before-sleep 'swaylock -f'";
+    ExecStart = "${pkgs.swayidle}/bin/swayidle timeout 450 '${pkgs.swaylock-effects}/bin/swaylock -f' timeout 660 '${pkgs.wlr-randr}/bin/wlr-randr --output eDP-1 --off' resume '${pkgs.wlr-randr}/bin/wlr-randr --output eDP-1 --on' timeout 900 'systemctl suspend' before-sleep '${pkgs.swaylock-effects}/bin/swaylock -f'";
     Restart = "always";
     RestartSec = 3;
   };
