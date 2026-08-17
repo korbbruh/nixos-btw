@@ -119,6 +119,7 @@ security.pam.services.swaylock = { };
     starship
     eza
     foot
+    kdePackages.kate
     nwg-look
     lm_sensors
     pavucontrol
