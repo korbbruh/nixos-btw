@@ -178,7 +178,8 @@ xdg.portal = {
 boot.consoleLogLevel = 0;
 boot.kernelParams = [ "quiet" "udev.log_level=3" "amdgpu.dcdebugmask=0x40000" ];
 boot.extraModprobeConfig = ''
-  options nvidia NVreg_EnableS0ixPowerManagement=1
+  options nvidia NVreg_EnableS0ixPowerManagement=1 NVreg_DynamicPowerManagement=0x02
+  options nvidia NVreg_PreserveVideoMemoryAllocations=1
 '';
 
 services.logind.settings.Login = {
