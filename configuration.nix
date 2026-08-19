@@ -214,7 +214,7 @@ systemd.user.services.swayosd = {
   after = [ "graphical-session.target" ];
   serviceConfig = {
     ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
-    Restart = "on-failure";
+    Restart = "always";
     RestartSec = 1;
   };
 };
@@ -241,7 +241,7 @@ systemd.user.services.xwayland-satellite = {
       sleep 1
       DISPLAY=:2 ${pkgs.xrdb}/bin/xrdb -merge <<< "Xft.dpi: 144"
     ''}";
-    Restart = "on-failure";
+    Restart = "always";
     RestartSec = 1;
   };
 };
