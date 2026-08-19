@@ -148,6 +148,7 @@ security.pam.services.swaylock = { };
     swayosd
     swaylock-effects
     tumbler
+    spotify
     glib
     satty
     kdePackages.polkit-kde-agent-1
