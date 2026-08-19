@@ -148,7 +148,6 @@ security.pam.services.swaylock = { };
     swayosd
     swaylock-effects
     tumbler
-    kdePackages.dolphin
     glib
     satty
     kdePackages.polkit-kde-agent-1
@@ -178,20 +177,6 @@ xdg.portal = {
 boot.consoleLogLevel = 0;
 boot.kernelParams = [ "quiet" "udev.log_level=3" "amdgpu.dcdebugmask=0x40000" ];
 
-systemd.services.swaylock-before-sleep = {
-  description = "Lock screen before suspend";
-  before = [ "sleep.target" ];
-  wantedBy = [ "sleep.target" ];
-  serviceConfig = {
-    Type = "exec";
-    User = "kl";
-    Environment = [
-      "WAYLAND_DISPLAY=wayland-0"
-      "XDG_RUNTIME_DIR=/run/user/1000"
-    ];
-    ExecStart = "${pkgs.swaylock-effects}/bin/swaylock -f";
-  };
-};
 services.logind.settings.Login = {
   HandleLidSwitch = "suspend";
   HandleLidSwitchExternalPower = "suspend";

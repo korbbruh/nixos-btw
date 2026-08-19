@@ -42,11 +42,11 @@
       nixeditconf = "nvim ~/nixos/configuration.nix";
       nixeditflake = "nvim ~/nixos/flake.nix";
       nixedithome =  "nvim ~/nixos/home.nix";
+      nixup = "cd ~/nixos && nix flake update && sudo nixos-rebuild switch --flake ~/nixos#nixos-btw && git add -A && git commit -m 'flake update' && git pull --rebase && git push";
+      dot = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME";
     };
 
     shellAbbrs = {
-      nixup = "cd ~/nixos && nix flake update && sudo nixos-rebuild switch --flake ~/nixos#nixos-btw && git add -A && git commit -m 'flake update' && git pull --rebase && git push";
-      dot = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME";
       lg = "lazygit";
       gd = "git diff";
       ga = "git add .";
