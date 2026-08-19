@@ -172,7 +172,7 @@ security.pam.services.swaylock = { };
   enable = true;
   platformTheme = "gnome";
   style = "adwaita-dark";
-};
+  };
 
 xdg.portal = {
   enable = true;
