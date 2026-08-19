@@ -168,6 +168,12 @@ security.pam.services.swaylock = { };
     nerd-fonts.jetbrains-mono
   ];
 
+  qt = {
+  enable = true;
+  platformTheme = "gnome";
+  style = "adwaita-dark";
+};
+
 xdg.portal = {
   enable = true;
   wlr.enable = true;
