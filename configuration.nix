@@ -177,6 +177,9 @@ xdg.portal = {
 
 boot.consoleLogLevel = 0;
 boot.kernelParams = [ "quiet" "udev.log_level=3" "amdgpu.dcdebugmask=0x40000" ];
+boot.extraModprobeConfig = ''
+  options nvidia NVreg_EnableS0ixPowerManagement=1
+'';
 
 services.logind.settings.Login = {
   HandleLidSwitch = "suspend";
@@ -197,6 +200,7 @@ powerManagement.powertop.enable = true;
 services.udisks2.enable = true;
 programs.steam.enable = true;
 programs.gamemode.enable = true;
+hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.latest;
 hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true;
