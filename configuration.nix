@@ -6,38 +6,58 @@
     inputs.mangowm.nixosModules.mango
   ];
 
-  #### Boot ####################################################
+  # ==========================================================================
+  # Boot
+  # ==========================================================================
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Tracks whatever nixpkgs calls latest. A flake update can land on a kernel
+  # the NVIDIA module hasn't caught up to; the rebuild fails loudly if so.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  #### Networking ##############################################
+  boot.consoleLogLevel = 0;
+  boot.kernelParams = [
+    "quiet"
+    "udev.log_level=3"
+    # Fixes the panel dimming instead of brightening above ~95% backlight.
+    "amdgpu.dcdebugmask=0x40000"
+  ];
+
+  # DynamicPowerManagement and PreserveVideoMemoryAllocations are NOT set here;
+  # hardware.nvidia.powerManagement.{enable,finegrained} already set them.
+  boot.extraModprobeConfig = ''
+    options nvidia NVreg_EnableS0ixPowerManagement=1
+  '';
+
+  # ==========================================================================
+  # Networking
+  # ==========================================================================
 
   networking.hostName = "nixos-btw";
 
-  # Enable NetworkManager with iwd backend
   networking.networkmanager = {
     enable = true;
-    wifi.backend = "iwd";
+    wifi.backend = "iwd"; # impala talks to iwd, not wpa_supplicant
   };
 
-  # Configure iwd & unlock 5GHz channels
-  hardware.wirelessRegulatoryDomain = "PH";
   networking.wireless.iwd = {
     enable = true;
     settings = {
-      General = {
-        EnableNetworkConfiguration = false; # Let NetworkManager handle IP/DNS
-      };
-      Rank = {
-        BandModifier5GHz = 2.0; # Prioritize 5GHz over 2.4GHz
-      };
+      General.EnableNetworkConfiguration = false; # NetworkManager owns IP/DNS
+      Rank.BandModifier5GHz = 2.0;
     };
   };
 
-  #### Locale ##################################################
+  hardware.wirelessRegulatoryDomain = "PH";
+
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
+  # ==========================================================================
+  # Locale
+  # ==========================================================================
 
   time.timeZone = "Asia/Manila";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -54,7 +74,30 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  #### Display / desktop #######################################
+  # ==========================================================================
+  # Graphics
+  # ==========================================================================
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  # PRIME offload: compositor runs on the AMD iGPU, the 3070 sits in runtime
+  # D3 until something explicitly asks for it.
+  hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    powerManagement.finegrained = true; # runtime D3
+    open = true; # open kernel modules, correct for Ampere on kernel >= 6.11
+  };
+
+  services.supergfxd.enable = true;
+
+  # ==========================================================================
+  # Display / session
+  # ==========================================================================
 
   services.xserver.enable = true;
 
@@ -63,29 +106,46 @@
     variant = "";
   };
 
-services.greetd = {
-  enable = true;
-  settings = {
-    initial_session = {
-      command = "mango";
-      user = "kl"; # auto-login on first start, no password required
-    };
-    default_session = {
-      command = "${pkgs.tuigreet}/bin/tuigreet --cmd mango";
-      user = "greeter";
-    };
-  };
-};
-
   programs.mango.enable = true;
 
-  # Graphics. Running on amdgpu alone right now.
-  hardware.graphics = {
+  services.greetd = {
     enable = true;
-    enable32Bit = true;
+    settings = {
+      # Autologin straight into Mango on boot.
+      initial_session = {
+        command = "mango";
+        user = "kl";
+      };
+      # tuigreet appears only after an explicit logout.
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --cmd mango";
+        user = "greeter";
+      };
+    };
   };
 
-  #### Audio ###################################################
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.common.default = [ "wlr" "gtk" ];
+  };
+
+  # GTK theming is owned by home-manager (home.nix). Qt apps launched from the
+  # compositor pick up QT_QPA_PLATFORMTHEME=gtk3 from mango's env.conf; the
+  # polkit agent gets its own value on its unit since systemd user services
+  # don't inherit the compositor environment.
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
+
+  programs.dconf.enable = true;
+
+  # ==========================================================================
+  # Audio
+  # ==========================================================================
 
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -97,11 +157,47 @@ services.greetd = {
     pulse.enable = true;
   };
 
-  #### Printing ################################################
+  # ==========================================================================
+  # Power (laptop)
+  # ==========================================================================
 
+  powerManagement.enable = true;
+  powerManagement.powertop.enable = true;
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
+  services.asusd.enable = true;
+
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitchDocked = "ignore";
+  };
+
+  # ==========================================================================
+  # Files / desktop services
+  # ==========================================================================
+
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs; [ thunar-archive-plugin thunar-vcs-plugin thunar-volman ];
+  };
+
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
+  services.tumbler.enable = true;
   services.printing.enable = true;
+  services.flatpak.enable = true;
 
-  #### Users ###################################################
+  # ==========================================================================
+  # Gaming
+  # ==========================================================================
+
+  programs.steam.enable = true;
+  programs.gamemode.enable = true;
+
+  # ==========================================================================
+  # Users / security
+  # ==========================================================================
 
   users.users."kl" = {
     isNormalUser = true;
@@ -112,7 +208,12 @@ services.greetd = {
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;
 
-  #### Nix itself ##############################################
+  security.polkit.enable = true;
+  security.pam.services.swaylock = { };
+
+  # ==========================================================================
+  # Nix
+  # ==========================================================================
 
   nixpkgs.config.allowUnfree = true;
 
@@ -125,188 +226,171 @@ services.greetd = {
     options = "--delete-older-than 14d";
   };
 
-security.pam.services.swaylock = { };
-
-  #### Packages ################################################
+  # ==========================================================================
+  # Packages
+  # ==========================================================================
 
   environment.systemPackages = with pkgs; [
+    # editors / core
     vim
     neovim
     git
     wget
-    firefox
+    kdePackages.kate
+
+    # shell
     fish
     starship
     eza
+
+    # compositor stack
     foot
-    kdePackages.kate
-    nwg-look
-    lm_sensors
-    pavucontrol
-    impala
-    gsettings-desktop-schemas
-    bluetui
-    pamixer
-    flatpak
-    jq
-    wlr-randr
-    wl-clip-persist
-    swayidle
-    libnotify
-    wlsunset
     rofi
     waybar
     mako
     swaybg
-    btop
-    greetd
+    swayidle
+    swaylock-effects
+    swayosd
+    xwayland-satellite
+    wlr-randr
+    wl-clipboard
+    wl-clip-persist
+    cliphist
+    sway-audio-idle-inhibit
+    wlsunset
+    libnotify
+    brightnessctl
+
+    # screenshots
+    grim
+    slurp
+    satty
+
+    # theming
     adw-gtk3
     papirus-icon-theme
     papirus-folders
+    nwg-look # NOTE: cannot write GTK settings, home-manager owns them
+    glib
+    gsettings-desktop-schemas
+
+    # session
+    greetd
     tuigreet
+    kdePackages.polkit-kde-agent-1
+
+    # system tools
+    btop
     fastfetch
     powertop
-    swayosd
-    swaylock-effects
-    tumbler
-    spotify
-    glib
-    satty
-    kdePackages.polkit-kde-agent-1
-    cliphist
-    wl-clipboard
-    sway-audio-idle-inhibit
-    bemoji
-    xwayland-satellite
-    grim
-    slurp
-    wiremix
     upower
-    brightnessctl
-];
+    lm_sensors
+    jq
+
+    # audio / network / bluetooth TUIs
+    pavucontrol
+    pamixer
+    wiremix
+    impala
+    bluetui
+
+    # apps
+    firefox
+    spotify
+    flatpak
+    bemoji
+  ];
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
 
-  qt = {
-  enable = true;
-  platformTheme = "gnome";
-  style = "adwaita-dark";
-};
+  # ==========================================================================
+  # User services
+  #
+  # autostart.sh starts these explicitly once Mango is up. wantedBy also has
+  # systemd attempt them at graphical-session.target, which Mango does not
+  # reliably reach -- if those early attempts fail fast enough to trip the
+  # default start limit, the unit stays dead. Add startLimitIntervalSec = 0
+  # to any of these that starts failing at login.
+  # ==========================================================================
 
-xdg.portal = {
-  enable = true;
-  wlr.enable = true;
-  extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  config.common.default = [ "wlr" "gtk" ];
-};
-
-boot.consoleLogLevel = 0;
-boot.kernelParams = [ "quiet" "udev.log_level=3" "amdgpu.dcdebugmask=0x40000" ];
-boot.extraModprobeConfig = ''
-  options nvidia NVreg_EnableS0ixPowerManagement=1
-  options nvidia NVreg_PreserveVideoMemoryAllocations=1
-'';
-
-services.logind.settings.Login = {
-  HandleLidSwitch = "suspend";
-  HandleLidSwitchExternalPower = "suspend";
-  HandleLidSwitchDocked = "ignore";
-};
-powerManagement.enable = true;
-services.supergfxd.enable = true;
-hardware.bluetooth.enable = true;
-services.blueman.enable = true;
-services.flatpak.enable = true;
-services.tumbler.enable = true;
-security.polkit.enable = true;
-services.asusd.enable = true;
-services.gvfs.enable = true;
-services.upower.enable = true;
-powerManagement.powertop.enable = true;
-services.udisks2.enable = true;
-programs.steam.enable = true;
-programs.gamemode.enable = true;
-hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.latest;
-hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    powerManagement.finegrained = true; # Enables Runtime D3 (dGPU sleeping on battery)
-    open = true; # Set to true if running kernel >= 6.11 on supported Ampere/Ada cards
+  systemd.user.services.swayosd = {
+    description = "SwayOSD server";
+    wantedBy = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
+      Restart = "always";
+      RestartSec = 1;
+    };
   };
-programs.thunar = {
-  enable = true;
-  plugins = with pkgs; [ thunar-archive-plugin thunar-vcs-plugin thunar-volman ];
-};
-programs.dconf.enable = true;
-services.power-profiles-daemon.enable = true;
 
-systemd.user.services.swayosd = {
-  description = "SwayOSD server";
-  wantedBy = [ "graphical-session.target" ];
-  after = [ "graphical-session.target" ];
-  serviceConfig = {
-    ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
-    Restart = "always";
-    RestartSec = 1;
+  systemd.user.services.xwayland-satellite = {
+    description = "Xwayland outside your Wayland";
+    wantedBy = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :2";
+      ExecStartPost = "${pkgs.writeShellScript "xrdb-dpi" ''
+        sleep 1
+        DISPLAY=:2 ${pkgs.xrdb}/bin/xrdb -merge <<< "Xft.dpi: 144"
+      ''}";
+      Restart = "always";
+      RestartSec = 1;
+    };
   };
-};
 
-systemd.services.swayosd-libinput-backend = {
-  description = "SwayOSD libinput backend";
-  wantedBy = [ "graphical.target" ];
-  partOf = [ "graphical.target" ];
-  serviceConfig = {
-    Type = "simple";
-    ExecStart = "${pkgs.swayosd}/bin/swayosd-libinput-backend";
-    Restart = "on-failure";
-    RestartSec = 1;
+  # QT_QPA_PLATFORMTHEME is set on the unit because systemd user services do
+  # not inherit the compositor's env.conf.
+  systemd.user.services.polkit-kde-agent = {
+    description = "polkit-kde-authentication-agent-1";
+    after = [ "graphical-session.target" ];
+    environment = {
+      QT_QPA_PLATFORMTHEME = "gnome";
+    };
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
+      Restart = "always";
+      RestartSec = 1;
+    };
   };
-};
 
-systemd.user.services.xwayland-satellite = {
-  description = "Xwayland outside your Wayland";
-  wantedBy = [ "graphical-session.target" ];
-  after = [ "graphical-session.target" ];
-  serviceConfig = {
-    ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :2";
-    ExecStartPost = "${pkgs.writeShellScript "xrdb-dpi" ''
-      sleep 1
-      DISPLAY=:2 ${pkgs.xrdb}/bin/xrdb -merge <<< "Xft.dpi: 144"
-    ''}";
-    Restart = "always";
-    RestartSec = 1;
+  # Full store paths throughout: a systemd unit gets a minimal PATH, and mmsg
+  # in particular is not reachable from one.
+  systemd.user.services.swayidle = {
+    description = "Idle management";
+    after = [ "graphical-session.target" ];
+    startLimitIntervalSec = 0;
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.swayidle}/bin/swayidle timeout 450 '${pkgs.swaylock-effects}/bin/swaylock -f' timeout 660 '${pkgs.wlr-randr}/bin/wlr-randr --output eDP-1 --off' resume '${pkgs.wlr-randr}/bin/wlr-randr --output eDP-1 --on' timeout 900 'systemctl suspend' before-sleep '${pkgs.swaylock-effects}/bin/swaylock -f'";
+      Restart = "always";
+      RestartSec = 3;
+    };
   };
-};
 
-systemd.user.services.polkit-kde-agent = {
-  description = "polkit-kde-authentication-agent-1";
-  after = [ "graphical-session.target" ];
-  environment = {
-    QT_QPA_PLATFORMTHEME = "gnome";
+  # System-level: reads input devices directly so the OSD appears for volume
+  # and brightness keys without a compositor binding. Needs root.
+  systemd.services.swayosd-libinput-backend = {
+    description = "SwayOSD libinput backend";
+    wantedBy = [ "graphical.target" ];
+    partOf = [ "graphical.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.swayosd}/bin/swayosd-libinput-backend";
+      Restart = "on-failure";
+      RestartSec = 1;
+    };
   };
-  serviceConfig = {
-    Type = "simple";
-    ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
-    Restart = "on-failure";
-    RestartSec = 1;
-  };
-};
 
-systemd.user.services.swayidle = {
-  description = "Idle management";
-  after = [ "graphical-session.target" ];
-  startLimitIntervalSec = 0;
-  serviceConfig = {
-    Type = "simple";
-    ExecStart = "${pkgs.swayidle}/bin/swayidle timeout 450 '${pkgs.swaylock-effects}/bin/swaylock -f' timeout 660 '${pkgs.wlr-randr}/bin/wlr-randr --output eDP-1 --off' resume '${pkgs.wlr-randr}/bin/wlr-randr --output eDP-1 --on' timeout 900 'systemctl suspend' before-sleep '${pkgs.swaylock-effects}/bin/swaylock -f'";
-    Restart = "always";
-    RestartSec = 3;
-  };
-};
-
-  #### Do not change ###########################################
+  # ==========================================================================
+  # Do not change
+  # ==========================================================================
 
   system.stateVersion = "26.05";
 }
