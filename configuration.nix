@@ -26,11 +26,9 @@
         BandModifier5GHz = 2.0;
       };
     };
-  }; # Closes iwd block
-
-  time.timeZone = "Asia/Manila";
-  i18n.defaultLocale = "en_US.UTF-8";
-} # Single closing brace at the VERY END of the file (around line 308)  #### Locale ##################################################
+  };
+ 
+  #### Locale ##################################################
 
   time.timeZone = "Asia/Manila";
   i18n.defaultLocale = "en_US.UTF-8";
