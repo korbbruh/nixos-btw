@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     inputs.mangowm.nixosModules.mango
   ];
+
   #### Boot ####################################################
 
   boot.loader.systemd-boot.enable = true;
@@ -15,19 +16,27 @@
   #### Networking ##############################################
 
   networking.hostName = "nixos-btw";
+
+  # Enable NetworkManager with iwd backend
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
+
+  # Configure iwd & unlock 5GHz channels
   hardware.wirelessRegulatoryDomain = "PH";
   networking.wireless.iwd = {
     enable = true;
     settings = {
       General = {
-        EnableNetworkConfiguration = false;
+        EnableNetworkConfiguration = false; # Let NetworkManager handle IP/DNS
       };
       Rank = {
-        BandModifier5GHz = 2.0;
+        BandModifier5GHz = 2.0; # Prioritize 5GHz over 2.4GHz
       };
     };
   };
- 
+
   #### Locale ##################################################
 
   time.timeZone = "Asia/Manila";
