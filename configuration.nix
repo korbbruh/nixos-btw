@@ -14,6 +14,7 @@
 
   #### Networking ##############################################
 
+  hardware.wirelessRegulatoryDomain = "PH";
   networking.hostName = "nixos-btw";
   networking.networkmanager = {
     enable = true;
@@ -24,6 +25,9 @@
     settings = {
       General = {
         EnableNetworkConfiguration = false;
+      Rank = {
+        # Tell iwd to prefer 5GHz over 2.4GHz when both are visible
+        BandModifier5GHz = 2.0;
       };
     };
   };
