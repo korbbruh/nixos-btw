@@ -47,10 +47,9 @@
     settings = {
       General.EnableNetworkConfiguration = false; # NetworkManager owns IP/DNS
       Rank.BandModifier5GHz = 2.0;
+      General.Country = "PH";
     };
   };
-
-  hardware.wirelessRegulatoryDomain = "PH";
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
