@@ -15,13 +15,10 @@
   #### Networking ##############################################
 
   networking.hostName = "nixos-btw";
-  networking.networkmanager.enable = true;
-
-networking.networkmanager = {
+  networking.networkmanager = {
     enable = true;
     wifi.backend = "iwd";
   };
-
   networking.wireless.iwd = {
     enable = true;
     settings = {
