@@ -124,6 +124,7 @@ security.pam.services.swaylock = { };
     lm_sensors
     pavucontrol
     impala
+    gsettings-desktop-schemas
     bluetui
     pamixer
     flatpak
@@ -194,7 +195,6 @@ services.logind.settings.Login = {
   HandleLidSwitchDocked = "ignore";
 };
 powerManagement.enable = true;
-environment.systemPackages = [ pkgs.gsettings-desktop-schemas ];
 services.supergfxd.enable = true;
 hardware.bluetooth.enable = true;
 services.blueman.enable = true;
