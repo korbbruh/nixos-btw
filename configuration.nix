@@ -194,6 +194,7 @@ services.logind.settings.Login = {
   HandleLidSwitchDocked = "ignore";
 };
 powerManagement.enable = true;
+environment.systemPackages = [ pkgs.gsettings-desktop-schemas ];
 services.supergfxd.enable = true;
 hardware.bluetooth.enable = true;
 services.blueman.enable = true;
