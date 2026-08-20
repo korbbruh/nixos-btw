@@ -17,6 +17,22 @@
   networking.hostName = "nixos-btw";
   networking.networkmanager.enable = true;
 
+{
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
+
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      General = {
+        EnableNetworkConfiguration = false; # Let NetworkManager handle IP assignment/DNS
+      };
+    };
+  };
+}
+
   #### Locale ##################################################
 
   time.timeZone = "Asia/Manila";
@@ -185,7 +201,7 @@ xdg.portal = {
 boot.consoleLogLevel = 0;
 boot.kernelParams = [ "quiet" "udev.log_level=3" "amdgpu.dcdebugmask=0x40000" ];
 boot.extraModprobeConfig = ''
-  options nvidia NVreg_EnableS0ixPowerManagement=1 NVreg_DynamicPowerManagement=0x02
+  options nvidia NVreg_EnableS0ixPowerManagement=1
   options nvidia NVreg_PreserveVideoMemoryAllocations=1
 '';
 
