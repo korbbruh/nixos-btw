@@ -26,11 +26,10 @@ networking.networkmanager = {
     enable = true;
     settings = {
       General = {
-        EnableNetworkConfiguration = false; # Let NetworkManager handle IP assignment/DNS
+        EnableNetworkConfiguration = false;
       };
     };
   };
-}
 
   #### Locale ##################################################
 
