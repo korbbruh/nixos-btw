@@ -14,12 +14,8 @@
 
   #### Networking ##############################################
 
-  hardware.wirelessRegulatoryDomain = "PH";
   networking.hostName = "nixos-btw";
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
-  };
+  hardware.wirelessRegulatoryDomain = "PH";
   networking.wireless.iwd = {
     enable = true;
     settings = {
@@ -27,14 +23,14 @@
         EnableNetworkConfiguration = false;
       };
       Rank = {
-        # Tell iwd to prefer 5GHz over 2.4GHz when both are visible
         BandModifier5GHz = 2.0;
       };
     };
-    };
-  }
+  }; # Closes iwd block
 
-  #### Locale ##################################################
+  time.timeZone = "Asia/Manila";
+  i18n.defaultLocale = "en_US.UTF-8";
+} # Single closing brace at the VERY END of the file (around line 308)  #### Locale ##################################################
 
   time.timeZone = "Asia/Manila";
   i18n.defaultLocale = "en_US.UTF-8";
