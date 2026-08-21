@@ -284,7 +284,6 @@
     fastfetch
     powertop
     upower
-    thunar-archive-plugin
     lm_sensors
     jq
 
@@ -303,6 +302,8 @@
     spotify
     flatpak
     bemoji
+    zip
+    unzip
   ];
 
   fonts.packages = with pkgs; [
