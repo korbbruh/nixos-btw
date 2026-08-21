@@ -295,6 +295,7 @@
     bluetui
 
     # apps
+    vlc
     firefox
     spotify
     flatpak
