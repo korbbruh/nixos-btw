@@ -284,6 +284,7 @@
     fastfetch
     powertop
     upower
+    thunar-archive-plugin
     lm_sensors
     jq
 
