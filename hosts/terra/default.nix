@@ -10,7 +10,7 @@
 
   korb.display = {
     # TODO: confirm with `wlr-randr` on Terra. Likely DP-1 or HDMI-A-1.
-    output = "DP-1";
+    output = "DP-2";
     dpi = 96; # 1080p, no scaling
     autologinUser = "keri";
   };
