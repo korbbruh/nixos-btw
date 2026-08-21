@@ -296,6 +296,8 @@
 
     # apps
     vlc
+    kdePackages.okular
+    kdePackages.gwenview
     firefox
     spotify
     flatpak
