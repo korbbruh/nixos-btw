@@ -94,7 +94,7 @@ in
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
-        Restart = "on-failure";
+        Restart = "always";
         RestartSec = 1;
       };
     };
@@ -117,7 +117,7 @@ in
           sleep 1
           DISPLAY=:2 ${pkgs.xrdb}/bin/xrdb -merge <<< "Xft.dpi: ${toString cfg.dpi}"
         ''}";
-        Restart = "on-failure";
+        Restart = "always";
         RestartSec = 1;
       };
     };
@@ -133,7 +133,7 @@ in
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
-        Restart = "on-failure";
+        Restart = "always";
         RestartSec = 1;
       };
     };
@@ -154,7 +154,7 @@ in
           "timeout 900 'systemctl suspend'"
           "before-sleep '${pkgs.swaylock-effects}/bin/swaylock -f'"
         ];
-        Restart = "on-failure";
+        Restart = "always";
         RestartSec = 3;
       };
     };

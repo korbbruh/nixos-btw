@@ -9,7 +9,6 @@
   networking.hostName = "terra";
 
   korb.display = {
-    # TODO: confirm with `wlr-randr` on Terra. Likely DP-1 or HDMI-A-1.
     output = "DP-2";
     dpi = 96; # 1080p, no scaling
     autologinUser = "keri";
@@ -65,5 +64,4 @@
 
   # IMPORTANT: leave this at whatever the Terra installer generated. It is not
   # a version to keep current; it pins stateful defaults from first install.
-  system.stateVersion = "26.05"; # TODO: set to Terra's actual install version
-}
+  system.stateVersion = "26.05";}

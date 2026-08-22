@@ -94,7 +94,6 @@
   environment.systemPackages = with pkgs; [
     powertop
     upower
-    impala # iwd TUI
   ];
 
   system.stateVersion = "26.05";
