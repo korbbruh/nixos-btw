@@ -55,17 +55,30 @@
 
     shellAliases = {
       ls = "eza --icons --group-directories-first -1";
-      dot = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME";
-
       # No #host: nixos-rebuild picks the config matching the hostname,
-      # so this works unchanged on both machines.
-      nixup = "cd ~/nixos && nix flake update && sudo nixos-rebuild switch --flake ~/nixos && git add -A && git commit -m 'flake update' && git pull --rebase && git push";
-
       nixeditflake = "nvim ~/nixos/flake.nix";
       nixedithost = "nvim ~/nixos/hosts/$hostname/default.nix";
       nixeditcommon = "nvim ~/nixos/modules/common.nix";
       nixeditdesktop = "nvim ~/nixos/modules/desktop.nix";
       nixedithome = "nvim ~/nixos/home/common.nix";
+
+      # --- nixos ---
+      # rebuild only, no update, no commit. the everyday one.
+      nixre = "sudo nixos-rebuild switch --flake ~/nixos";
+
+      # rebuild + commit + push. use when you changed something.
+      nixpush = "cd ~/nixos && sudo nixos-rebuild switch --flake ~/nixos && git add -A && git commit && git pull --rebase && git push";
+
+      # pull the other machine's changes and rebuild.
+      nixpull = "cd ~/nixos && git pull && sudo nixos-rebuild switch --flake ~/nixos";
+
+      # flake update + rebuild + commit + push. the weekly one.
+      nixup = "cd ~/nixos && nix flake update && sudo nixos-rebuild switch --flake ~/nixos && git add -A && git commit -m 'flake update' && git pull --rebase && git push";
+
+      # --- dotfiles ---
+      dot = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME";
+      dotpull = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME pull";
+      dotpush = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME add -u && git --git-dir=$HOME/.dotfiles --work-tree=$HOME pull --rebase && git --git-dir=$HOME/.dotfiles --work-tree=$HOME push";
     };
 
     shellAbbrs = {
