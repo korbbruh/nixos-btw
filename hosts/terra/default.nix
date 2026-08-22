@@ -40,7 +40,19 @@
   # impala. Add them back here if you put a wifi card in.
   # ==========================================================================
 
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
+
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      General.EnableNetworkConfiguration = false; # NetworkManager owns IP/DNS
+      General.Country = "PH"; # unlocks the full 5GHz/6GHz range
+      Rank.BandModifier5GHz = 2.0;
+    };
+  };
 
   # ==========================================================================
   # Notes on what is deliberately absent

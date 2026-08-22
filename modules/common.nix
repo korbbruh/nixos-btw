@@ -167,11 +167,13 @@
     pamixer
     wiremix
     bluetui
+    impala
 
     # apps
     firefox
     spotify
     flatpak
+    localsend
     bemoji
   ];
 
