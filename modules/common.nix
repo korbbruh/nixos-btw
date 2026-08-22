@@ -141,6 +141,7 @@
     grim
     slurp
     satty
+    swappy
 
     # theming
     adw-gtk3
