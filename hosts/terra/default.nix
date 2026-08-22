@@ -34,9 +34,6 @@
 
   # ==========================================================================
   # Networking
-  #
-  # Ethernet, so plain NetworkManager. No iwd, no regulatory domain, no
-  # impala. Add them back here if you put a wifi card in.
   # ==========================================================================
 
   networking.networkmanager = {
