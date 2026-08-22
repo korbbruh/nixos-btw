@@ -182,5 +182,7 @@
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
+    iosevka-comfy.comfy
+    iosevka
   ];
 }
