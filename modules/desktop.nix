@@ -99,6 +99,13 @@ in
       };
     };
 
+    systemd.user.targets.mango-session = {
+      description = "mango compositor session";
+      bindsTo = [ "graphical-session.target" ];
+      wants = [ "graphical-session-pre.target" ];
+      after = [ "graphical-session-pre.target" ];
+      };
+
     systemd.user.services.xwayland-satellite = {
       description = "Xwayland outside your Wayland";
       wantedBy = [ "graphical-session.target" ];
