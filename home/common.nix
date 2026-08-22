@@ -36,12 +36,6 @@
     size = 24;
   };
 
-  xdg.configFile."mango/keybinds.conf".text = ''
-  ...whole file contents here...
-  bind=SUPER,v,spawn,${config.home.homeDirectory}/.config/mango/clipboard.sh
-  ...
-'';
-
   # iconTheme has a name but no package on purpose: GTK then resolves
   # Papirus-Dark through the normal XDG path, where the recoloured copy in
   # ~/.local/share/icons wins over the store one.
