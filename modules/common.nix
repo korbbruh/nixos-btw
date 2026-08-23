@@ -148,6 +148,7 @@
 
     # theming
     adw-gtk3
+    colorpanes
     papirus-icon-theme
     papirus-folders
     nwg-look # creates the gtk-4.0 theme symlinks home-manager doesn't
@@ -173,6 +174,7 @@
     impala
 
     # apps
+    vesktop
     firefox
     spotify
     flatpak
