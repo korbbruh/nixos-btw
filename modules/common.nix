@@ -145,6 +145,7 @@
     slurp
     satty
     swappy
+    wayfreeze
 
     # theming
     adw-gtk3
