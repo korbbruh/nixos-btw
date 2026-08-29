@@ -62,6 +62,7 @@
 
   xdg.configFile."swayosd".source =
   config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/swayosd";
+
   # iconTheme has a name but no package on purpose: GTK then resolves
   # Papirus-Dark through the normal XDG path, where the recoloured copy in
   # ~/.local/share/icons wins over the store one.
@@ -73,6 +74,7 @@
     };
     iconTheme = {
       name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
   };
 
