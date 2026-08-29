@@ -252,9 +252,6 @@ service so it gets `gnome` on its unit instead. Both work; do not "fix" either.
   bumped `src`, `modemmanager` in `buildInputs`, and cava disabled. Revisit
   when nixpkgs ships a release that has them.
 
-- **`rog-control-center` ignores all theming.** It links neither GTK nor Qt
-  (self-rendering toolkit). Nothing to configure.
-
 - **Backlight above ~95% dims instead of brightening.** Fixed with
   `amdgpu.dcdebugmask=0x40000`. Reproduced on CachyOS first, so it is a
   driver/panel quirk, not a config problem.
