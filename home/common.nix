@@ -101,12 +101,7 @@
 
       # flake update + rebuild + commit + push. the weekly one.
       nixup = "cd ~/nixos && nix flake update && sudo nixos-rebuild switch --flake ~/nixos && git add -A && git commit -m 'flake update' && git pull --rebase && git push";
-
-      # --- dotfiles ---
-      dot = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME";
-      dotpull = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME pull";
-      dotpush = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME add -u && git --git-dir=$HOME/.dotfiles --work-tree=$HOME pull --rebase && git --git-dir=$HOME/.dotfiles --work-tree=$HOME push";
-    };
+   };
 
     shellAbbrs = {
       lg = "lazygit";
