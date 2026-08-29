@@ -1,0 +1,76 @@
+/* ~/.config/rofi/kev.rasi
+ * App launcher (drun) theme. Colors inherited from colors.rasi, which
+ * theme-pick.sh regenerates on every theme switch, so this launcher now
+ * follows the active theme instead of being locked to Kanagawa.
+ */
+@import "colors.rasi"
+
+* {
+    background-color: transparent;
+    text-color:       @foreground;
+    font:             "JetBrainsMono Nerd Font 12";
+}
+
+configuration {
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+    show-icons:      true;
+}
+
+window {
+    background-color: @background;
+    border-color:     @selected;
+    border:           1;
+    border-radius:    2px;
+    width:            480px;
+    padding:          6px;
+}
+
+mainbox {
+    background-color: transparent;
+    padding:          4px;
+    spacing:          5px;
+}
+
+inputbar {
+    background-color: @on-selected;
+    border-color:     @selected;
+    border:           1;
+    border-radius:    2px;
+    padding:          4px 8px;
+    spacing:          4px;
+    children:         [ entry ];
+}
+
+entry {
+    background-color: transparent;
+    text-color:       @foreground;
+}
+
+listview {
+    background-color: transparent;
+    spacing:          2px;
+    padding:          4px 0;
+    lines:            8;
+}
+
+element {
+    background-color: transparent;
+    border-radius:    2px;
+    padding:          4px 8px;
+}
+
+element-icon {
+    background-color: transparent;
+    margin:           0 8px 0 0;
+}
+
+element selected {
+    background-color: @selected;
+    text-color:       @on-selected;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+}
