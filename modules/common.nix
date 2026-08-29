@@ -114,6 +114,7 @@
     neovim
     git
     wget
+    kdePackages.okular
     kdePackages.kate
 
     # shell
