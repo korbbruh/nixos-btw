@@ -39,6 +39,9 @@
   xdg.configFile."rofi".source =
   config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/rofi";
 
+  xdg.configFile."mango".source =
+  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/mango";
+
   # iconTheme has a name but no package on purpose: GTK then resolves
   # Papirus-Dark through the normal XDG path, where the recoloured copy in
   # ~/.local/share/icons wins over the store one.
