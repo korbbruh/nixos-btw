@@ -1,0 +1,34 @@
+# ~/.config/mako/config.template  (rendered to ~/.config/mako/config by theme-pick.sh)
+# Color placeholders __BG__ __FG__ __BORDER__ __URGENT__ are substituted per theme.
+# 'include' is NOT used — this mako version predates it, so colors are inlined here.
+anchor=top-right
+group-by=app-name,summary,body
+default-timeout=5000
+width=420
+outer-margin=20
+padding=10,15
+border-size=2
+max-icon-size=32
+font=sans-serif 14px
+
+background-color=__BG__
+text-color=__FG__
+border-color=__BORDER__
+
+[app-name=Spotify]
+invisible=1
+
+[mode=dnd]
+invisible=1
+
+[mode=dnd app-name=notify-send]
+invisible=false
+
+[urgency=critical]
+default-timeout=0
+layer=overlay
+border-color=__URGENT__
+
+[summary~="Screenshot copied & saved"]
+max-icon-size=80
+format=<b>%s</b>\n%b

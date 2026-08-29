@@ -1,0 +1,60 @@
+# ~/.config/swaylock/swaylock.template
+# Rendered to ~/.config/swaylock/config by theme-pick.sh.
+# swaylock wants bare rrggbb / rrggbbaa (NO leading #).
+# Background image: fixed path, copied by wallpaper.sh
+
+# --- effects: blur the wallpaper, subtle vignette ---
+effect-blur=10x3
+effect-vignette=0.35:0.4
+image=~/.cache/current-wallpaper.jpg
+scaling=fill
+
+# --- clock ---
+clock
+timestr=%H:%M
+datestr=%A, %d %B
+font=CaskaydiaCove Nerd Font
+
+# --- indicator (the ring) ---
+indicator
+indicator-radius=110
+indicator-thickness=8
+indicator-caps-lock
+
+# --- ring colors (themed, bare hex) ---
+ring-color=__SURFACE__
+ring-clear-color=__ACCENT__
+ring-ver-color=__PRIMARY__
+ring-wrong-color=__URGENT__
+ring-caps-lock-color=__ACCENT__
+
+# --- inside of ring: semi-transparent bg ---
+inside-color=__BG__cc
+inside-clear-color=__BG__cc
+inside-ver-color=__BG__cc
+inside-wrong-color=__BG__cc
+inside-caps-lock-color=__BG__cc
+
+# --- text ---
+text-color=__FG__
+text-clear-color=__FG__
+text-ver-color=__FG__
+text-wrong-color=__FG__
+text-caps-lock-color=__FG__
+
+# --- highlights ---
+key-hl-color=__PRIMARY__
+bs-hl-color=__URGENT__
+caps-lock-key-hl-color=__PRIMARY__
+
+# --- lines + separator: invisible ---
+separator-color=00000000
+line-color=00000000
+line-clear-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+line-caps-lock-color=00000000
+
+# --- behavior ---
+ignore-empty-password
+show-failed-attempts
