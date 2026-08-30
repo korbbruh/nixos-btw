@@ -150,6 +150,7 @@
 
     # theming
     adw-gtk3
+    cava
     colorpanes
     papirus-icon-theme
     papirus-folders
