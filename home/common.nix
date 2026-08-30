@@ -86,7 +86,8 @@
       ls = "eza --icons --group-directories-first -1";
       # No #host: nixos-rebuild picks the config matching the hostname,
       nixeditflake = "nvim ~/nixos/flake.nix";
-      nixedithost = "nvim ~/nixos/hosts/$hostname/default.nix";
+      nixeditg15 = "nvim ~/nixos/hosts/g15/default.nix";
+      nixeditterra ="nvim ~/nixos/hosts/terra/default.nix";
       nixeditcommon = "nvim ~/nixos/modules/common.nix";
       nixeditdesktop = "nvim ~/nixos/modules/desktop.nix";
       nixedithome = "nvim ~/nixos/home/common.nix";

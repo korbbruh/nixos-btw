@@ -57,23 +57,10 @@
 
   # ==========================================================================
   # Networking
-  #
-  # iwd backend because impala talks to iwd, not wpa_supplicant.
   # ==========================================================================
 
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
-  };
-
-  networking.wireless.iwd = {
-    enable = true;
-    settings = {
-      General.EnableNetworkConfiguration = false; # NetworkManager owns IP/DNS
-      General.Country = "PH"; # unlocks the full 5GHz/6GHz range
-      Rank.BandModifier5GHz = 2.0;
-    };
-  };
+  networking.wireless.iwd.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
 
   # ==========================================================================
   # Power
