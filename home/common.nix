@@ -83,6 +83,7 @@
     enable = true;
 
     shellAliases = {
+      fastfetch = "fastfetch -c /examples/13";
       ls = "eza --icons --group-directories-first -1";
       # No #host: nixos-rebuild picks the config matching the hostname,
       nixeditflake = "nvim ~/nixos/flake.nix";
