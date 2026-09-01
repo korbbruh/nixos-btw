@@ -37,7 +37,10 @@
   # ==========================================================================
 
   networking.wireless.iwd.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
 
   # ==========================================================================
   # Notes on what is deliberately absent

@@ -8,8 +8,8 @@ home/dotfiles/swaylock/config
 home/dotfiles/swayosd/style.css
 home/dotfiles/waybar/colors.css
 home/dotfiles/btop/themes/current.theme
-home/dotfiles/mango/theme.conf
 home/dotfiles/mango/effects.conf
 home/dotfiles/themes/*/backgrounds/
 home/dotfiles/themes/*/unlock.png
 home/dotfiles/themes/*/preview-unlock.png
+home/dotfiles/cava/config
