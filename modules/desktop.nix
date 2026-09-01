@@ -65,7 +65,7 @@ in
       wlr.enable = true;
       wlr.settings.screencast = {
         chooser_type = "dmenu";
-        chooser_cmd = "${pkgs.rofi}/bin/rofi -dmenu -p 'select output'";
+        chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
       };
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       config.common.default = [ "wlr" "gtk" ];
