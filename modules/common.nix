@@ -168,8 +168,6 @@
     fastfetch
     lm_sensors
     jq
-    meson
-    ninja
 
     # audio / network / bluetooth TUIs
     pavucontrol
