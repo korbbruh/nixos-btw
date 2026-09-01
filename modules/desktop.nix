@@ -11,6 +11,8 @@ in
   # and those differ per machine. Hosts set these; this module consumes them.
   # ==========================================================================
 
+
+
   options.korb.display = {
     output = lib.mkOption {
       type = lib.types.str;
@@ -61,6 +63,10 @@ in
     xdg.portal = {
       enable = true;
       wlr.enable = true;
+      wlr.settings.screencast = {
+        chooser_type = "simple";
+        chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
+      };
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       config.common.default = [ "wlr" "gtk" ];
     };
@@ -91,6 +97,7 @@ in
       description = "SwayOSD server";
       wantedBy = [ "graphical-session.target" ];
       after = [ "graphical-session.target" ];
+      startLimitIntervalSec = 0;
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
@@ -110,6 +117,7 @@ in
       description = "Xwayland outside your Wayland";
       wantedBy = [ "graphical-session.target" ];
       after = [ "graphical-session.target" ];
+      startLimitIntervalSec = 0;
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :2";
@@ -127,6 +135,7 @@ in
     systemd.user.services.polkit-kde-agent = {
       description = "polkit-kde-authentication-agent-1";
       after = [ "graphical-session.target" ];
+      startLimitIntervalSec = 0;
       environment = {
         QT_QPA_PLATFORMTHEME = "gnome";
       };
