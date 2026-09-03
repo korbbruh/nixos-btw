@@ -44,8 +44,13 @@ in
 
     programs.mango.enable = true;
 
-    services.greetd = {
-      enable = true;
+    services.desktopManager.plasma6.enable = true;
+    services.displayManager.sddm.enable = true;
+    services.displayManager.sddm.wayland.enable = true;
+    services.displayManager.plasma-login-manager.enable = false;
+
+      services.greetd = {
+      enable = false;
       settings = {
         # Autologin straight into Mango on boot.
         initial_session = {
@@ -76,11 +81,11 @@ in
     # QT_QPA_PLATFORMTHEME from mango's env.conf; the polkit agent gets its
     # own value on its unit, since systemd user services do not inherit the
     # compositor environment.
-    qt = {
-      enable = true;
-      platformTheme = "gnome";
-      style = "adwaita-dark";
-    };
+    # qt = {
+    #   enable = true;
+    #   platformTheme = "gnome";
+    #   style = "adwaita-dark";
+    # };
 
     programs.dconf.enable = true;
 
