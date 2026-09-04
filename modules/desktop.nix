@@ -45,10 +45,10 @@ in
     programs.mango.enable = true;
 
     services.desktopManager.plasma6.enable = true;
-    services.displayManager.plasma-login-manager.enable = true;
+    #services.displayManager.plasma-login-manager.enable = true;
 
       services.greetd = {
-      enable = false;
+      enable = true;
       settings = {
         # Autologin straight into Mango on boot.
         initial_session = {
