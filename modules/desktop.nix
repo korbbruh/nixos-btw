@@ -11,8 +11,6 @@ in
   # and those differ per machine. Hosts set these; this module consumes them.
   # ==========================================================================
 
-
-
   options.korb.display = {
     output = lib.mkOption {
       type = lib.types.str;
@@ -47,8 +45,10 @@ in
     services.desktopManager.plasma6.enable = true;
     #services.displayManager.plasma-login-manager.enable = true;
 
+    services.displayManager.ly.enable = true;
+
       services.greetd = {
-      enable = true;
+      enable = false;
       settings = {
         # Autologin straight into Mango on boot.
         initial_session = {
@@ -80,10 +80,10 @@ in
     # own value on its unit, since systemd user services do not inherit the
     # compositor environment.
     # qt = {
-    #   enable = true;
+    #  enable = true;
     #   platformTheme = "gnome";
     #   style = "adwaita-dark";
-    # };
+    #};
 
     programs.dconf.enable = true;
 
@@ -139,9 +139,9 @@ in
       description = "polkit-kde-authentication-agent-1";
       after = [ "graphical-session.target" ];
       startLimitIntervalSec = 0;
-      environment = {
-        QT_QPA_PLATFORMTHEME = "gnome";
-      };
+        environment = {
+          QT_QPA_PLATFORMTHEME = "gnome";
+        };
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
