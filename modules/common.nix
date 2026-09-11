@@ -73,6 +73,24 @@
   services.blueman.enable = true;
 
   # ==========================================================================
+  # Networking
+  # ==========================================================================
+  networking = {
+  nameservers = [ "1.1.1.1" "1.0.0.1" ];
+  networkmanager = {
+    enable = true;
+    # Ignores IPv4 and IPv6 DNS pushed by any router while keeping local DHCP IPs
+    dns = "none";
+  };
+};
+
+# Optional: Disable IPv6 entirely if your ISP's IPv6 routing is fundamentally broken
+boot.kernel.sysctl = {
+  "net.ipv6.conf.all.disable_ipv6" = 1;
+  "net.ipv6.conf.default.disable_ipv6" = 1;
+};
+
+  # ==========================================================================
   # Gaming
   # ==========================================================================
 
@@ -180,6 +198,7 @@
     vesktop
     firefox
     spotify
+    obsidian
     flatpak
     localsend
     bemoji

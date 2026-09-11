@@ -33,16 +33,6 @@
   };
 
   # ==========================================================================
-  # Networking
-  # ==========================================================================
-
-  networking.wireless.iwd.enable = true;
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
-  };
-
-  # ==========================================================================
   # Notes on what is deliberately absent
   #
   # No powertop/PPD/upower/asusd/supergfxd: desktop, always on AC.
