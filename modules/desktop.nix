@@ -14,7 +14,7 @@ in
   options.korb.display = {
     output = lib.mkOption {
       type = lib.types.str;
-      description = "Primary output name, e.g. eDP-1 or DP-1.";
+      description = "Primary output name, e.g. eDP-1 or DP-2.";
     };
     dpi = lib.mkOption {
       type = lib.types.int;
@@ -168,20 +168,6 @@ in
         ];
         Restart = "always";
         RestartSec = 3;
-      };
-    };
-
-    # System-level: reads input devices directly so the OSD appears for volume
-    # and brightness keys without a compositor binding. Needs root.
-    systemd.services.swayosd-libinput-backend = {
-      description = "SwayOSD libinput backend";
-      wantedBy = [ "graphical.target" ];
-      partOf = [ "graphical.target" ];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.swayosd}/bin/swayosd-libinput-backend";
-        Restart = "on-failure";
-        RestartSec = 1;
       };
     };
   };
