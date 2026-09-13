@@ -76,5 +76,13 @@
     upower
   ];
 
+  services.displayManager.ly.enable = true;
+  services.displayManager = {
+    autoLogin = {
+      enable = true;
+      user = "kl";
+    };
+  };
+
   system.stateVersion = "26.05";
 }
