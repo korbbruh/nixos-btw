@@ -25,7 +25,14 @@ in
       type = lib.types.str;
       description = "User greetd logs in automatically on boot.";
     };
+    autologinSession = lib.mkOption {
+      type = lib.types.str;
+      default = "mango";
+      description = "Session command greetd autologins into.";
   };
+  };
+
+
 
   config = {
 
@@ -50,7 +57,7 @@ in
       settings = {
         # Autologin straight into Mango on boot.
         initial_session = {
-          command = "mango";
+          command = cfg.autologinSession;
           user = cfg.autologinUser;
         };
         # tuigreet appears only after an explicit logout.

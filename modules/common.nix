@@ -63,12 +63,9 @@
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.tumbler.enable = true;
-  services.printing.enable = true;
   services.flatpak.enable = true;
   programs.localsend.enable = true;
   programs.localsend.openFirewall = true;
-
-
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 

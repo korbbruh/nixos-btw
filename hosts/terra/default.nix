@@ -12,6 +12,7 @@
     output = "DP-2";
     dpi = 96; # 1080p, no scaling
     autologinUser = "keri";
+    autologinSession = "startplasma-wayland"
   };
 
   users.users."keri" = {
