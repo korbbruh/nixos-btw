@@ -8,11 +8,12 @@
 
   networking.hostName = "terra";
 
-  korb.display = {
-    output = "DP-2";
-    dpi = 96; # 1080p, no scaling
-    autologinUser = "keri";
-  };
+korb.display = {
+  output = "DP-2";
+  dpi = 96; # 1080p, no scaling
+  autologinUser = "keri";
+  autologinSession = "${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland";
+};
 
   users.users."keri" = {
     isNormalUser = true;

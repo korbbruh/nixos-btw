@@ -11,21 +11,26 @@ in
   # and those differ per machine. Hosts set these; this module consumes them.
   # ==========================================================================
 
-  options.korb.display = {
-    output = lib.mkOption {
-      type = lib.types.str;
-      description = "Primary output name, e.g. eDP-1 or DP-2.";
-    };
-    dpi = lib.mkOption {
-      type = lib.types.int;
-      default = 96;
-      description = "Xft.dpi for XWayland apps. 96 at 1080p, 144 at 1440p/1.5x.";
-    };
-    autologinUser = lib.mkOption {
-      type = lib.types.str;
-      description = "User greetd logs in automatically on boot.";
-    };
+options.korb.display = {
+  output = lib.mkOption {
+    type = lib.types.str;
+    description = "Primary output name, e.g. eDP-1 or DP-2.";
   };
+  dpi = lib.mkOption {
+    type = lib.types.int;
+    default = 96;
+    description = "Xft.dpi for XWayland apps. 96 at 1080p, 144 at 1440p/1.5x.";
+  };
+  autologinUser = lib.mkOption {
+    type = lib.types.str;
+    description = "User greetd logs in automatically on boot.";
+  };
+  autologinSession = lib.mkOption {
+    type = lib.types.str;
+    default = "mango";
+    description = "Session command greetd autologins into.";
+  };
+};
 
   config = {
 
@@ -50,7 +55,7 @@ in
       settings = {
         # Autologin straight into Mango on boot.
         initial_session = {
-          command = "mango";
+          command = cfg.autologinSession;
           user = cfg.autologinUser;
         };
         # tuigreet appears only after an explicit logout.
