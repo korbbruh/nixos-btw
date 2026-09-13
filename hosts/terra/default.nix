@@ -20,14 +20,6 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  services.displayManager.ly.enable = true;
-  services.displayManager = {
-    autoLogin = {
-      enable = true;
-      user = "keri";
-    };
-  };
-
   # ==========================================================================
   # Graphics
   #

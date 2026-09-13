@@ -46,7 +46,7 @@ in
     #services.displayManager.plasma-login-manager.enable = true;
 
       services.greetd = {
-      enable = false;
+      enable = true;
       settings = {
         # Autologin straight into Mango on boot.
         initial_session = {
