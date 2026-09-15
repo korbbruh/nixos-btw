@@ -96,13 +96,10 @@
       # --- nixos ---
       # rebuild only, no update, no commit. the everyday one.
       nixre = "sudo nixos-rebuild switch --flake ~/nixos";
-
       # rebuild + commit + push. use when you changed something.
       nixpush = "cd ~/nixos && sudo nixos-rebuild switch --flake ~/nixos && git add -A && git commit && git pull --rebase && git push";
-
       # pull the other machine's changes and rebuild.
       nixpull = "cd ~/nixos && git pull && sudo nixos-rebuild switch --flake ~/nixos";
-
       # flake update + rebuild + commit + push. the weekly one.
       nixup = "cd ~/nixos && nix flake update && sudo nixos-rebuild switch --flake ~/nixos && git add -A && git commit -m 'flake update' && git pull --rebase && git push";
    };
