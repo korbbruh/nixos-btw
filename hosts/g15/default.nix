@@ -23,11 +23,6 @@
   # ==========================================================================
   # Boot
   # ==========================================================================
-
-  # Panel dims instead of brightening above ~95% backlight without this.
-  # Confirmed a hardware/driver quirk: reproduces on CachyOS too.
-  boot.kernelParams = [ "amdgpu.dcdebugmask=0x40000" ];
-
   # DynamicPowerManagement and PreserveVideoMemoryAllocations are NOT set here;
   # hardware.nvidia.powerManagement.{enable,finegrained} already set them.
   boot.extraModprobeConfig = ''
