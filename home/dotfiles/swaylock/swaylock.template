@@ -5,20 +5,20 @@
 
 # --- effects: blur the wallpaper, subtle vignette ---
 effect-blur=10x3
-effect-vignette=0.35:0.4
+#effect-vignette=0.35:0.4
 image=~/.cache/current-wallpaper.jpg
 scaling=fill
 
 # --- clock ---
 clock
 timestr=%H:%M
-datestr=%A, %d %B
+datestr=%a, %d %b
 font=CaskaydiaCove Nerd Font
 
 # --- indicator (the ring) ---
 indicator
 indicator-radius=110
-indicator-thickness=8
+indicator-thickness=4
 indicator-caps-lock
 
 # --- ring colors (themed, bare hex) ---

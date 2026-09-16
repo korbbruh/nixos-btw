@@ -46,8 +46,9 @@ options.korb.display = {
     };
 
     programs.mango.enable = true;
-
+    programs.niri.enable = true;
     services.desktopManager.plasma6.enable = true;
+    services.displayManager.defaultSession = lib.mkForce "mango";
     #services.displayManager.plasma-login-manager.enable = true;
 
       services.greetd = {
