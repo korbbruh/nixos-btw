@@ -115,10 +115,8 @@
 
   environment.systemPackages = with pkgs; [
     # editors / core
-    vim
     neovim
     git
-    wget
     kdePackages.okular
     kdePackages.kate
 
@@ -149,7 +147,6 @@
     # screenshots
     grim
     slurp
-    satty
     swappy
     wayfreeze
 
