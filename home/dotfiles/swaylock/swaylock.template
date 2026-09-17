@@ -18,7 +18,7 @@ font=CaskaydiaCove Nerd Font
 # --- indicator (the ring) ---
 indicator
 indicator-radius=110
-indicator-thickness=4
+indicator-thickness=5
 indicator-caps-lock
 
 # --- ring colors (themed, bare hex) ---
