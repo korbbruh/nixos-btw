@@ -75,8 +75,14 @@
   # ==========================================================================
   # Networking
   # ==========================================================================
-  networking.networkmanager.enable = true;
-
+  networking = {
+  nameservers = [ "1.1.1.1" "1.0.0.1" ];
+  networkmanager = {
+    enable = true;
+    # Ignores IPv4 and IPv6 DNS pushed by any router while keeping local DHCP IPs
+    dns = "none";
+  };
+};
   # ==========================================================================
   # Gaming
   # ==========================================================================
