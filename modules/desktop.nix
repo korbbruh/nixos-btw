@@ -46,6 +46,11 @@ options.korb.display = {
     };
 
     programs.mango.enable = true;
+    programs.noctalia = {
+        enable = true;
+        recommendedServices.enable = true;
+      };
+    programs.noctalia.systemd.enable = true;
     programs.niri.enable = true;
     services.desktopManager.plasma6.enable = true;
     services.displayManager.defaultSession = lib.mkForce "mango";
@@ -100,18 +105,18 @@ options.korb.display = {
     # add startLimitIntervalSec = 0 to it.
     # ========================================================================
 
-    systemd.user.services.swayosd = {
-      description = "SwayOSD server";
-      wantedBy = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
-      startLimitIntervalSec = 0;
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
-        Restart = "always";
-        RestartSec = 1;
-      };
-    };
+    #systemd.user.services.swayosd = {
+    #  description = "SwayOSD server";
+    #  wantedBy = [ "graphical-session.target" ];
+    #  after = [ "graphical-session.target" ];
+    #  startLimitIntervalSec = 0;
+    #  serviceConfig = {
+    #    Type = "simple";
+    #    ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
+    #    Restart = "always";
+    #    RestartSec = 1;
+    #  };
+    #};
 
     systemd.user.targets.mango-session = {
       description = "mango compositor session";
@@ -136,43 +141,44 @@ options.korb.display = {
         RestartSec = 1;
       };
     };
-
+  };
+}
     # QT_QPA_PLATFORMTHEME is set on the unit because systemd user services
     # do not inherit the compositor's env.conf.
-    systemd.user.services.polkit-kde-agent = {
-      description = "polkit-kde-authentication-agent-1";
-      after = [ "graphical-session.target" ];
-      startLimitIntervalSec = 0;
-        environment = {
-          QT_QPA_PLATFORMTHEME = "gnome";
-        };
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
-        Restart = "always";
-        RestartSec = 1;
-      };
-    };
+    #systemd.user.services.polkit-kde-agent = {
+    #  description = "polkit-kde-authentication-agent-1";
+    #  after = [ "graphical-session.target" ];
+    #  startLimitIntervalSec = 0;
+    #    environment = {
+    #      QT_QPA_PLATFORMTHEME = "gnome";
+    #    };
+    #  serviceConfig = {
+    #    Type = "simple";
+    #    ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
+    #    Restart = "always";
+    ##    RestartSec = 1;
+    #  };
+    #};
 
     # Full store paths throughout: a systemd unit gets a minimal PATH, and
     # mmsg in particular is not reachable from one.
-    systemd.user.services.swayidle = {
-      description = "Idle management";
-      after = [ "graphical-session.target" ];
-      startLimitIntervalSec = 0;
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = lib.concatStringsSep " " [
-          "${pkgs.swayidle}/bin/swayidle"
-          "timeout 450 '${pkgs.swaylock-effects}/bin/swaylock -f'"
-          "timeout 660 '${pkgs.wlr-randr}/bin/wlr-randr --output ${cfg.output} --off'"
-          "resume '${pkgs.wlr-randr}/bin/wlr-randr --output ${cfg.output} --on'"
-          "timeout 900 'systemctl suspend'"
-          "before-sleep '${pkgs.swaylock-effects}/bin/swaylock -f'"
-        ];
-        Restart = "always";
-        RestartSec = 3;
-      };
-    };
-  };
-}
+    #systemd.user.services.swayidle = {
+    #  description = "Idle management";
+    #  after = [ "graphical-session.target" ];
+    #  startLimitIntervalSec = 0;
+    #  serviceConfig = {
+    #    Type = "simple";
+    #    ExecStart = lib.concatStringsSep " " [
+    #      "${pkgs.swayidle}/bin/swayidle"
+    #      "timeout 450 '${pkgs.swaylock-effects}/bin/swaylock -f'"
+    #      "timeout 660 '${pkgs.wlr-randr}/bin/wlr-randr --output ${cfg.output} --off'"
+    #      "resume '${pkgs.wlr-randr}/bin/wlr-randr --output ${cfg.output} --on'"
+    #      "timeout 900 'systemctl suspend'"
+    #      "before-sleep '${pkgs.swaylock-effects}/bin/swaylock -f'"
+    #    ];
+    #    Restart = "always";
+    #    RestartSec = 3;
+    #  };
+    #};
+  #};
+#}

@@ -97,8 +97,8 @@
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;
 
-  security.polkit.enable = true;
-  security.pam.services.swaylock = { };
+  #security.polkit.enable = true;
+  #security.pam.services.swaylock = { };
 
   # ==========================================================================
   # Nix
@@ -191,6 +191,7 @@
     flatpak
     localsend
     bemoji
+    noctalia
   ];
 
   fonts.packages = with pkgs; [
