@@ -1,0 +1,22 @@
+[colors-dark]
+foreground=231914
+background=fff8f5
+regular0=f9ddce
+regular1=ba1a1a
+regular2=994700
+regular3=835334
+regular4=5d6300
+regular5=a56339
+regular6=9f6542
+regular7=231914
+bright0=897266
+bright1=ba1a1a
+bright2=994700
+bright3=835334
+bright4=5d6300
+bright5=a56339
+bright6=9f6542
+bright7=231914
+selection-foreground=564338
+selection-background=f9ddce
+cursor=fff8f5 231914
