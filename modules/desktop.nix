@@ -56,21 +56,33 @@ options.korb.display = {
     services.displayManager.defaultSession = lib.mkForce "mango";
     #services.displayManager.plasma-login-manager.enable = true;
 
-      services.greetd = {
-      enable = true;
-      settings = {
+    services.displayManager.noctalia-greeter = {
+  enable = true;
+  settings = {
+    cursor.size = 24;
+    keyboard.layout = "us";
+  };
+  cursorTheme = {
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+  };
+};
+
+      #services.greetd = {
+      #enable = true;
+      #settings = {
         # Autologin straight into Mango on boot.
-        initial_session = {
-          command = cfg.autologinSession;
-          user = cfg.autologinUser;
-        };
+      #  initial_session = {
+      #    command = cfg.autologinSession;
+      #    user = cfg.autologinUser;
+      #  };
         # tuigreet appears only after an explicit logout.
-        default_session = {
-          command = "${pkgs.tuigreet}/bin/tuigreet --cmd mango";
-          user = "greeter";
-        };
-      };
-    };
+      #  default_session = {
+      #    command = "${pkgs.tuigreet}/bin/tuigreet --cmd mango";
+      #    user = "greeter";
+      #  };
+      #};
+    #};
 
     xdg.portal = {
       enable = true;
