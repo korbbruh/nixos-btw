@@ -3,12 +3,12 @@
 # Shared home-manager config. Per-user files set username/homeDirectory
 # and import this.
 #
-# THEMING BOUNDARY: this manages settings.ini only. Everything theme-pick.sh
-# rewrites at runtime (foot/colors.ini, waybar/colors.css, rofi/colors.rasi,
-# mango/theme.conf, mako/config, cava/config, yazi/, btop, nvim theme) must
-# stay OUT of home-manager, or it becomes a read-only store symlink and the
-# script's writes fail. Same for ~/.local/share/icons/Papirus-Dark, which
-# papirus-folders recolours in place.
+# DOTFILES: everything under home/dotfiles/ is linked with
+# mkOutOfStoreSymlink, so ~/.config/<x> points at a WRITABLE path inside this
+# repo rather than a read-only store path. Edits take effect immediately with
+# no rebuild, and tools that rewrite their own config at runtime keep working.
+#
+# GTK theming is owned by Noctalia now, not this file.
 
 {
   home.stateVersion = "26.05";
@@ -36,73 +36,50 @@
     size = 24;
   };
 
-  xdg.configFile."rofi".source =
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/rofi";
+  # ==========================================================================
+  # Dotfiles
+  # ==========================================================================
 
   xdg.configFile."mango".source =
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/mango";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/mango";
 
   xdg.configFile."foot".source =
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/foot";
-
-  xdg.configFile."mako".source =
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/mako";
-
-  xdg.configFile."swaylock".source =
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/swaylock";
-
-  xdg.configFile."themes".source =
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/themes";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/foot";
 
   xdg.configFile."btop".source =
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/btop";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/btop";
 
-  xdg.configFile."waybar".source =
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/waybar";
+  # Noctalia writes its own settings at runtime, so this must stay writable.
+  xdg.configFile."noctalia".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/noctalia";
 
-  xdg.configFile."swayosd".source =
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/swayosd";
-
-  xdg.configFile."cava".source = 
-  config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/home/dotfiles/cava";
-  # iconTheme has a name but no package on purpose: GTK then resolves
-  # Papirus-Dark through the normal XDG path, where the recoloured copy in
-  # ~/.local/share/icons wins over the store one.
-  gtk = {
-    enable = true;
-    theme = {
-      name = "adw-gtk3-dark";
-      package = pkgs.adw-gtk3;
-    };
-    iconTheme = {
-      name = "Papirus-Dark";
-    };
-  };
+  # ==========================================================================
+  # Fish
+  # ==========================================================================
 
   programs.fish = {
     enable = true;
 
     shellAliases = {
-      #fastfetch = "fastfetch -c /examples/13";
       ls = "eza --icons --group-directories-first -1";
-      # No #host: nixos-rebuild picks the config matching the hostname,
+
+      # --- editing ---
       nixeditflake = "nvim ~/nixos/flake.nix";
       nixeditg15 = "nvim ~/nixos/hosts/g15/default.nix";
-      nixeditterra ="nvim ~/nixos/hosts/terra/default.nix";
+      nixeditterra = "nvim ~/nixos/hosts/terra/default.nix";
       nixeditcommon = "nvim ~/nixos/modules/common.nix";
       nixeditdesktop = "nvim ~/nixos/modules/desktop.nix";
       nixedithome = "nvim ~/nixos/home/common.nix";
 
-      # --- nixos ---
-      # rebuild only, no update, no commit. the everyday one.
+      # --- rebuild ---
+      # No #host: nixos-rebuild picks the config matching the hostname.
       nixre = "sudo nixos-rebuild switch --flake ~/nixos";
-      # rebuild + commit + push. use when you changed something.
       nixpush = "cd ~/nixos && sudo nixos-rebuild switch --flake ~/nixos && git add -A && git commit && git pull --rebase && git push";
-      # pull the other machine's changes and rebuild.
       nixpull = "cd ~/nixos && git pull && sudo nixos-rebuild switch --flake ~/nixos";
-      # flake update + rebuild + commit + push. the weekly one.
+      # Weekly, and on ONE machine only: both regenerating flake.lock from the
+      # same parent conflicts every time. The other machine uses nixpull.
       nixup = "cd ~/nixos && nix flake update && sudo nixos-rebuild switch --flake ~/nixos && git add -A && git commit -m 'flake update' && git pull --rebase && git push";
-   };
+    };
 
     shellAbbrs = {
       lg = "lazygit";

@@ -24,7 +24,8 @@
 
   time.timeZone = "Asia/Manila";
   i18n.defaultLocale = "en_US.UTF-8";
-  i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "en_PH.UTF-8/UTF-8" ];	
+  i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "en_PH.UTF-8/UTF-8" ];
+
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
     LC_IDENTIFICATION = "en_US.UTF-8";
@@ -52,6 +53,33 @@
   };
 
   # ==========================================================================
+  # Networking
+  # ==========================================================================
+
+  networking = {
+    # Router DNS at 192.168.1.254 was resolving in 5-8 SECONDS. Bypassing it
+    # took lookups to ~20ms. dns = "none" stops NM reinstating the router's
+    # resolver from DHCP while still taking its IP lease.
+    nameservers = [ "1.1.1.1" "1.0.0.1" ];
+    networkmanager = {
+      enable = true; # also required by Noctalia's wifi widget
+      dns = "none";
+    };
+  };
+
+  hardware.bluetooth.enable = true; # required by Noctalia's bluetooth widget
+
+  # ==========================================================================
+  # Power
+  #
+  # Both required by Noctalia's power-profile and battery widgets, on desktop
+  # as well as laptop. Laptop-only tuning stays in hosts/g15.
+  # ==========================================================================
+
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
+
+  # ==========================================================================
   # Files / desktop services
   # ==========================================================================
 
@@ -65,24 +93,10 @@
   services.tumbler.enable = true;
   services.printing.enable = true;
   services.flatpak.enable = true;
+
   programs.localsend.enable = true;
   programs.localsend.openFirewall = true;
 
-
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-
-  # ==========================================================================
-  # Networking
-  # ==========================================================================
-  networking = {
-  nameservers = [ "1.1.1.1" "1.0.0.1" ];
-  networkmanager = {
-    enable = true;
-    # Ignores IPv4 and IPv6 DNS pushed by any router while keeping local DHCP IPs
-    dns = "none";
-  };
-};
   # ==========================================================================
   # Gaming
   # ==========================================================================
@@ -91,14 +105,11 @@
   programs.gamemode.enable = true;
 
   # ==========================================================================
-  # Shell / security
+  # Shell
   # ==========================================================================
 
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;
-
-  #security.polkit.enable = true;
-  #security.pam.services.swaylock = { };
 
   # ==========================================================================
   # Nix
@@ -117,6 +128,11 @@
 
   # ==========================================================================
   # Packages
+  #
+  # Noctalia provides the bar, launcher, OSD, notifications, notification
+  # centre, polkit agent, idle management, lock screen, wallpaper, clipboard,
+  # nightlight, system monitor, weather, dock and GTK theming. Anything it
+  # covers is deliberately absent below.
   # ==========================================================================
 
   environment.systemPackages = with pkgs; [
@@ -133,43 +149,17 @@
 
     # compositor stack
     foot
-    rofi
-    waybar
-    mako
-    swaybg
-    swayidle
-    swaylock-effects
-    swayosd
     xwayland-satellite
     wlr-randr
     wl-clipboard
-    wl-clip-persist
-    cliphist
-    sway-audio-idle-inhibit
-    wlsunset
-    libnotify
-    brightnessctl
+    brightnessctl # backend Noctalia's brightness OSD drives
+    sway-audio-idle-inhibit # Noctalia does not inhibit idle during audio
 
     # screenshots
     grim
     slurp
     swappy
     wayfreeze
-
-    # theming
-    adw-gtk3
-    cava
-    colorpanes
-    papirus-icon-theme
-    papirus-folders
-    nwg-look # creates the gtk-4.0 theme symlinks home-manager doesn't
-    glib
-    gsettings-desktop-schemas
-
-    # session
-    greetd
-    tuigreet
-    kdePackages.polkit-kde-agent-1
 
     # system tools
     btop
@@ -190,11 +180,31 @@
     obsidian
     flatpak
     localsend
-    bemoji
+    colorpanes
+    vlc
     noctalia
   ];
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
+
+nixpkgs.overlays = [
+  (final: prev: {
+    xwayland-satellite = prev.xwayland-satellite.overrideAttrs (old: rec {
+      version = "0.8.3";
+      src = prev.fetchFromGitHub {
+        owner = "Supreeeme";
+        repo = "xwayland-satellite";
+        rev = "v${version}";
+        hash = "sha256-eFEjCCniMCKeWU0PcZNv+tDYe08SLFPjRplyPY8OFt4=";
+      };
+      cargoDeps = prev.rustPlatform.fetchCargoVendor {
+        inherit src;
+        hash = "sha256-gMGFvnbxM3hD5fmkSimaFd87GEf6BXFe/MGjoS6VNVU=";
+      };
+      __intentionallyOverridingVersion = true;
+    });
+  })
+];
 }

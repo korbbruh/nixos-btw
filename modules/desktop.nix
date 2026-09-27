@@ -7,35 +7,39 @@ in
   # ==========================================================================
   # Per-host display values
   #
-  # The swayidle and xwayland-satellite units need the output name and DPI,
-  # and those differ per machine. Hosts set these; this module consumes them.
+  # xwayland-satellite needs the DPI, and the greeter/autologin needs the user
+  # and session. Those differ per machine; hosts set them, this module uses
+  # them.
   # ==========================================================================
 
-options.korb.display = {
-  output = lib.mkOption {
-    type = lib.types.str;
-    description = "Primary output name, e.g. eDP-1 or DP-2.";
+  options.korb.display = {
+    output = lib.mkOption {
+      type = lib.types.str;
+      description = "Primary output name, e.g. eDP-1 or DP-2.";
+    };
+    dpi = lib.mkOption {
+      type = lib.types.int;
+      default = 96;
+      description = "Xft.dpi for XWayland apps. 96 at 1080p, 144 at 1440p/1.5x.";
+    };
+    autologinUser = lib.mkOption {
+      type = lib.types.str;
+      description = "User the display manager logs in automatically on boot.";
+    };
+    autologinSession = lib.mkOption {
+      type = lib.types.str;
+      default = "mango";
+      description = "Session the display manager defaults to.";
+    };
   };
-  dpi = lib.mkOption {
-    type = lib.types.int;
-    default = 96;
-    description = "Xft.dpi for XWayland apps. 96 at 1080p, 144 at 1440p/1.5x.";
-  };
-  autologinUser = lib.mkOption {
-    type = lib.types.str;
-    description = "User greetd logs in automatically on boot.";
-  };
-  autologinSession = lib.mkOption {
-    type = lib.types.str;
-    default = "mango";
-    description = "Session command greetd autologins into.";
-  };
-};
 
   config = {
 
     # ========================================================================
-    # Session
+    # Compositors
+    #
+    # Mango is the daily driver. Plasma is kept for presenting and for the
+    # days when debugging is not an option. Niri is an experiment.
     # ========================================================================
 
     services.xserver.enable = true;
@@ -46,43 +50,46 @@ options.korb.display = {
     };
 
     programs.mango.enable = true;
-    programs.noctalia = {
-        enable = true;
-        recommendedServices.enable = true;
-      };
-    programs.noctalia.systemd.enable = true;
     programs.niri.enable = true;
     services.desktopManager.plasma6.enable = true;
-    services.displayManager.defaultSession = lib.mkForce "mango";
-    #services.displayManager.plasma-login-manager.enable = true;
+
+    services.displayManager.defaultSession = lib.mkForce cfg.autologinSession;
+
+    # ========================================================================
+    # Noctalia
+    #
+    # Provides bar, launcher, OSD, notifications + centre, polkit agent, idle,
+    # lock, wallpaper, clipboard, nightlight, system monitor, weather, dock
+    # and GTK theming. recommendedServices pulls in what it needs.
+    #
+    # Its widgets also need networkmanager, bluetooth, power-profiles-daemon
+    # and upower, all enabled in modules/common.nix.
+    # ========================================================================
+
+    programs.noctalia = {
+      enable = true;
+      recommendedServices.enable = true;
+      systemd.enable = true;
+    };
 
     services.displayManager.noctalia-greeter = {
-  enable = true;
-  settings = {
-    cursor.size = 24;
-    keyboard.layout = "us";
-  };
-  cursorTheme = {
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Ice";
-  };
-};
+      enable = true;
+      settings = {
+        cursor.size = 24;
+        keyboard.layout = "us";
+      };
+      cursorTheme = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Ice";
+      };
+    };
 
-      #services.greetd = {
-      #enable = true;
-      #settings = {
-        # Autologin straight into Mango on boot.
-      #  initial_session = {
-      #    command = cfg.autologinSession;
-      #    user = cfg.autologinUser;
-      #  };
-        # tuigreet appears only after an explicit logout.
-      #  default_session = {
-      #    command = "${pkgs.tuigreet}/bin/tuigreet --cmd mango";
-      #    user = "greeter";
-      #  };
-      #};
-    #};
+    # ========================================================================
+    # Portals
+    #
+    # wlr's screencast has no UI of its own, so it shells out to a chooser.
+    # slurp means "click the output you want to share".
+    # ========================================================================
 
     xdg.portal = {
       enable = true;
@@ -95,47 +102,24 @@ options.korb.display = {
       config.common.default = [ "wlr" "gtk" ];
     };
 
-    # GTK theming is owned by home-manager plus nwg-look (which creates the
-    # gtk-4.0 theme symlinks). Qt apps launched from the compositor read
-    # QT_QPA_PLATFORMTHEME from mango's env.conf; the polkit agent gets its
-    # own value on its unit, since systemd user services do not inherit the
-    # compositor environment.
-    # qt = {
-    #  enable = true;
-    #   platformTheme = "gnome";
-    #   style = "adwaita-dark";
-    #};
-
     programs.dconf.enable = true;
 
     # ========================================================================
     # User services
     #
-    # autostart.sh starts these explicitly once Mango is up. wantedBy also has
-    # systemd attempt them at graphical-session.target, which Mango does not
-    # reliably reach. If one starts failing at login with start-limit-hit,
-    # add startLimitIntervalSec = 0 to it.
+    # Mango does not reach graphical-session.target on its own, which is what
+    # portals depend on. mango-session.target is pulled in from autostart.sh
+    # with:
+    #   systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+    #   systemctl --user start mango-session.target
     # ========================================================================
-
-    #systemd.user.services.swayosd = {
-    #  description = "SwayOSD server";
-    #  wantedBy = [ "graphical-session.target" ];
-    #  after = [ "graphical-session.target" ];
-    #  startLimitIntervalSec = 0;
-    #  serviceConfig = {
-    #    Type = "simple";
-    #    ExecStart = "${pkgs.swayosd}/bin/swayosd-server";
-    #    Restart = "always";
-    #    RestartSec = 1;
-    #  };
-    #};
 
     systemd.user.targets.mango-session = {
       description = "mango compositor session";
       bindsTo = [ "graphical-session.target" ];
       wants = [ "graphical-session-pre.target" ];
       after = [ "graphical-session-pre.target" ];
-      };
+    };
 
     systemd.user.services.xwayland-satellite = {
       description = "Xwayland outside your Wayland";
@@ -155,42 +139,3 @@ options.korb.display = {
     };
   };
 }
-    # QT_QPA_PLATFORMTHEME is set on the unit because systemd user services
-    # do not inherit the compositor's env.conf.
-    #systemd.user.services.polkit-kde-agent = {
-    #  description = "polkit-kde-authentication-agent-1";
-    #  after = [ "graphical-session.target" ];
-    #  startLimitIntervalSec = 0;
-    #    environment = {
-    #      QT_QPA_PLATFORMTHEME = "gnome";
-    #    };
-    #  serviceConfig = {
-    #    Type = "simple";
-    #    ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
-    #    Restart = "always";
-    ##    RestartSec = 1;
-    #  };
-    #};
-
-    # Full store paths throughout: a systemd unit gets a minimal PATH, and
-    # mmsg in particular is not reachable from one.
-    #systemd.user.services.swayidle = {
-    #  description = "Idle management";
-    #  after = [ "graphical-session.target" ];
-    #  startLimitIntervalSec = 0;
-    #  serviceConfig = {
-    #    Type = "simple";
-    #    ExecStart = lib.concatStringsSep " " [
-    #      "${pkgs.swayidle}/bin/swayidle"
-    #      "timeout 450 '${pkgs.swaylock-effects}/bin/swaylock -f'"
-    #      "timeout 660 '${pkgs.wlr-randr}/bin/wlr-randr --output ${cfg.output} --off'"
-    #      "resume '${pkgs.wlr-randr}/bin/wlr-randr --output ${cfg.output} --on'"
-    #      "timeout 900 'systemctl suspend'"
-    #      "before-sleep '${pkgs.swaylock-effects}/bin/swaylock -f'"
-    #    ];
-    #    Restart = "always";
-    #    RestartSec = 3;
-    #  };
-    #};
-  #};
-#}
