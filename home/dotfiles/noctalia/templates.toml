@@ -1,0 +1,6 @@
+[theme.templates]
+enable_builtin_templates   = true
+enable_community_templates = true
+
+builtin_ids   = [ "btop", "cava", "foot", "gtk3", "gtk4", "mango", "niri", "qt", "starship" ]
+community_ids = [ "neovim", "obsidian", "fastfetch"]

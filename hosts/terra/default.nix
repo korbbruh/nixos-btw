@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, ... }:
 
 # Terra: Ryzen 7 5700X + RX 7800XT, single 1080p monitor.
 # Single AMD GPU, no hybrid graphics, no battery, no ASUS anything.
@@ -8,12 +8,9 @@
 
   networking.hostName = "terra";
 
-  korb.display = {
-    output = "DP-2";
-    dpi = 96; # 1080p, no scaling
-    autologinUser = "keri";
-    autologinSession = "${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland";
-  };
+  # Plasma by default here; Mango is still selectable at the greeter.
+  # XWayland's default 96 DPI suits 1080p, so no xrdb step.
+  services.displayManager.defaultSession = lib.mkForce "plasma";
 
   users.users."keri" = {
     isNormalUser = true;
@@ -36,12 +33,13 @@
   # ==========================================================================
   # Notes on what is deliberately absent
   #
-  # No powertop/PPD/upower/asusd/supergfxd: desktop, always on AC.
+  # No powertop/asusd/supergfxd: desktop, always on AC. (power-profiles-daemon
+  #   and upower ARE on, via common.nix, because Noctalia's widgets need them.)
   # No logind lid handling: no lid.
-  # No amdgpu.dcdebugmask: that flag is for the G15's panel quirk only.
   # No S0ix modprobe config: that is NVIDIA-specific.
   # ==========================================================================
 
   # IMPORTANT: leave this at whatever the Terra installer generated. It is not
   # a version to keep current; it pins stateful defaults from first install.
-  system.stateVersion = "26.05";}
+  system.stateVersion = "26.05";
+}

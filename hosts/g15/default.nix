@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 # ASUS ROG Zephyrus G15 GA503QR
 # AMD Renoir iGPU + RTX 3070 Mobile in PRIME offload, 2560x1440 165Hz eDP-1.
@@ -8,11 +8,18 @@
 
   networking.hostName = "nixos-btw";
 
-  korb.display = {
-    output = "eDP-1";
-    dpi = 144; # 1440p at 1.5x scaling
-    autologinUser = "kl";
-  };
+  # ==========================================================================
+  # Display
+  # ==========================================================================
+
+  services.displayManager.defaultSession = lib.mkForce "mango";
+
+  # 1440p panel at 1.5x: tell XWayland apps 144 DPI so they aren't tiny.
+  systemd.user.services.xwayland-satellite.serviceConfig.ExecStartPost =
+    "${pkgs.writeShellScript "xrdb-dpi" ''
+      sleep 1
+      DISPLAY=:2 ${pkgs.xrdb}/bin/xrdb -merge <<< "Xft.dpi: 144"
+    ''}";
 
   users.users."kl" = {
     isNormalUser = true;
@@ -51,13 +58,11 @@
   services.supergfxd.enable = true;
 
   # ==========================================================================
-  # Power
+  # Power (laptop-only; power-profiles-daemon and upower are in common.nix)
   # ==========================================================================
 
   powerManagement.enable = true;
   powerManagement.powertop.enable = true;
-  services.power-profiles-daemon.enable = true;
-  services.upower.enable = true;
   services.asusd.enable = true;
 
   services.logind.settings.Login = {
@@ -68,7 +73,6 @@
 
   environment.systemPackages = with pkgs; [
     powertop
-    upower
   ];
 
   system.stateVersion = "26.05";

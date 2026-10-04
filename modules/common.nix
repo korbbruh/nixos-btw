@@ -26,18 +26,6 @@
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "en_PH.UTF-8/UTF-8" ];
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
-  };
-
   # ==========================================================================
   # Audio
   # ==========================================================================
@@ -143,8 +131,6 @@
     kdePackages.kate
 
     # shell
-    fish
-    starship
     eza
 
     # compositor stack
@@ -153,7 +139,6 @@
     wlr-randr
     wl-clipboard
     brightnessctl # backend Noctalia's brightness OSD drives
-    sway-audio-idle-inhibit # Noctalia does not inhibit idle during audio
 
     # screenshots
     grim
@@ -173,14 +158,17 @@
     wiremix
     bluetui
 
+    # theming
+    adw-gtk3 # Noctalia's gtk3/gtk4 templates switch to it; without it they silently skip
+    papirus-icon-theme
+    nwg-look
+    colorpanes
+
     # apps
     vesktop
     firefox
     spotify
     obsidian
-    flatpak
-    localsend
-    colorpanes
     vlc
     noctalia
   ];
@@ -188,23 +176,4 @@
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
-
-nixpkgs.overlays = [
-  (final: prev: {
-    xwayland-satellite = prev.xwayland-satellite.overrideAttrs (old: rec {
-      version = "0.8.3";
-      src = prev.fetchFromGitHub {
-        owner = "Supreeeme";
-        repo = "xwayland-satellite";
-        rev = "v${version}";
-        hash = "sha256-eFEjCCniMCKeWU0PcZNv+tDYe08SLFPjRplyPY8OFt4=";
-      };
-      cargoDeps = prev.rustPlatform.fetchCargoVendor {
-        inherit src;
-        hash = "sha256-gMGFvnbxM3hD5fmkSimaFd87GEf6BXFe/MGjoS6VNVU=";
-      };
-      __intentionallyOverridingVersion = true;
-    });
-  })
-];
 }
