@@ -36,15 +36,6 @@
     options nvidia NVreg_EnableS0ixPowerManagement=1
   '';
 
-  # ==========================================================================
-  # Graphics
-  # ==========================================================================
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
   # PRIME offload: compositor runs on the AMD iGPU, the 3070 sits in runtime
   # D3 until something explicitly asks for it.
   hardware.nvidia = {

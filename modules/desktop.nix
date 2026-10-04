@@ -18,6 +18,7 @@
 
   programs.mango.enable = true;
   programs.niri.enable = true;
+  programs.hyprland.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   # ==========================================================================
@@ -33,21 +34,22 @@
 
   programs.noctalia = {
     enable = true;
-    recommendedServices.enable = true;
-    systemd.enable = true;
+    recommendedServices.enable = true; 
   };
 
-  services.displayManager.noctalia-greeter = {
-    enable = true;
-    settings = {
-      cursor.size = 24;
-      keyboard.layout = "us";
+  services.greetd = {
+  enable = true;
+  settings = {
+    initial_session = {
+      command = "mango";
+      user = "kl"; # auto-login on first start, no password required
     };
-    cursorTheme = {
-      package = pkgs.bibata-cursors;
-      name = "Bibata-Modern-Ice";
+    default_session = {
+      command = "${pkgs.tuigreet}/bin/tuigreet --cmd mango";
+      user = "greeter";
     };
   };
+};
 
   # ==========================================================================
   # Portals

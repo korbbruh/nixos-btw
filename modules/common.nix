@@ -24,7 +24,6 @@
 
   time.timeZone = "Asia/Manila";
   i18n.defaultLocale = "en_US.UTF-8";
-  i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "en_PH.UTF-8/UTF-8" ];
 
   # ==========================================================================
   # Audio
@@ -73,17 +72,25 @@
 
   programs.thunar = {
     enable = true;
-    plugins = with pkgs; [ thunar-archive-plugin thunar-vcs-plugin thunar-volman ];
+    plugins = with pkgs; [ thunar-archive-plugin thunar-volman ];
   };
 
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.tumbler.enable = true;
-  services.printing.enable = true;
   services.flatpak.enable = true;
 
   programs.localsend.enable = true;
   programs.localsend.openFirewall = true;
+
+  # ==========================================================================
+  # Graphics
+  # ==========================================================================
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
 
   # ==========================================================================
   # Gaming
@@ -127,6 +134,7 @@
     # editors / core
     neovim
     git
+    tuigreet
     kdePackages.okular
     kdePackages.kate
 
@@ -136,7 +144,6 @@
     # compositor stack
     foot
     xwayland-satellite
-    wlr-randr
     wl-clipboard
     brightnessctl # backend Noctalia's brightness OSD drives
 
@@ -144,24 +151,19 @@
     grim
     slurp
     swappy
-    wayfreeze
 
     # system tools
     btop
     fastfetch
     lm_sensors
-    jq
 
     # audio / network / bluetooth TUIs
-    pavucontrol
-    pamixer
     wiremix
     bluetui
 
     # theming
     adw-gtk3 # Noctalia's gtk3/gtk4 templates switch to it; without it they silently skip
     papirus-icon-theme
-    nwg-look
     colorpanes
 
     # apps
@@ -170,7 +172,6 @@
     spotify
     obsidian
     vlc
-    noctalia
   ];
 
   fonts.packages = with pkgs; [
