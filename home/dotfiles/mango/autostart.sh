@@ -12,4 +12,4 @@ systemctl --user start mango-session.target &
 # Noctalia's FAQ: it doesn't manage its own autostart; use the compositor's.
 # (So programs.noctalia.systemd is off in desktop.nix: one launcher only.)
 noctalia &
-noctalia msg session lock
+noctalia msg session lock >/dev/null 2>&1
