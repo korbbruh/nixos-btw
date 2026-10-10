@@ -173,6 +173,7 @@
     spotify
     obsidian
     vlc
+    libreoffice
   ];
 
   fonts.packages = with pkgs; [
