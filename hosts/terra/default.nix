@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 # Terra: Ryzen 7 5700X + RX 7800XT, single 1080p monitor.
 # Single AMD GPU, no hybrid graphics, no battery, no ASUS anything.
@@ -8,9 +8,10 @@
 
   networking.hostName = "terra";
 
-  # Plasma by default here; Mango is still selectable at the greeter.
-  # XWayland's default 96 DPI suits 1080p, so no xrdb step.
-  services.displayManager.defaultSession = lib.mkForce "plasma";
+  services.greetd.settings.initial_session = {
+    command = "${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland";
+    user = "keri";
+  };
 
   users.users."keri" = {
     isNormalUser = true;

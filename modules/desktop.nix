@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   # ==========================================================================
@@ -39,17 +39,15 @@
 
   services.greetd = {
   enable = true;
-  settings = {
-    initial_session = {
-      command = "mango";
-      user = "kl"; # auto-login on first start, no password required
-    };
-    default_session = {
-      command = "${pkgs.tuigreet}/bin/tuigreet --cmd mango";
-      user = "greeter";
-    };
+    settings.default_session = {
+     command = "${pkgs.tuigreet}/bin/tuigreet --cmd mango";
+     user = "greeter";
+   };
   };
-};
+
+  # greetd ignores this. It's only here because Plasma and Niri each set a
+  # conflicting default, and NixOS refuses to pick one.
+  services.displayManager.defaultSession = lib.mkForce "mango";
 
   # ==========================================================================
   # Portals

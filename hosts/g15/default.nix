@@ -11,8 +11,10 @@
   # ==========================================================================
   # Display
   # ==========================================================================
-
-  services.displayManager.defaultSession = lib.mkForce "mango";
+  services.greetd.settings.initial_session = {
+    command = "mango";
+    user = "kl";
+  };
 
   # 1440p panel at 1.5x: tell XWayland apps 144 DPI so they aren't tiny.
   systemd.user.services.xwayland-satellite.serviceConfig.ExecStartPost =
