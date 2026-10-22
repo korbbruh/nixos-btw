@@ -174,6 +174,12 @@
     obsidian
     vlc
     libreoffice
+    wlr-randr
+    wl-mirror
+    waybar
+    swaybg
+    kdePackages.kdenlive
+    rofi
   ];
 
   fonts.packages = with pkgs; [
