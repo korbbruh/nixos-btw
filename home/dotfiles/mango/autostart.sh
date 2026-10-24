@@ -9,7 +9,9 @@
 systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 systemctl --user start mango-session.target
 
+waybar &
+swaybg -i ~/Pictures/Wallpapers/macos-mojave-sand-dunes-mojave-desert-california-night-dark-5120x2880-4051.jpg
 # Noctalia's FAQ: it doesn't manage its own autostart; use the compositor's.
 # (So programs.noctalia.systemd is off in desktop.nix: one launcher only.)
-noctalia &
-noctalia msg session lock >/dev/null 2>&1
+#noctalia &
+#noctalia msg session lock >/dev/null 2>&1

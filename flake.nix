@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Temporary pin: kernel 7.2.9 + nvidia 615.71.09 (615.78.08 breaks runtime D3 and nvidia-smi)
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     noctalia = {
       url = "github:noctalia-dev/noctalia";
