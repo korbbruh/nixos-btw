@@ -178,6 +178,8 @@
     wl-mirror
     waybar
     swaybg
+    gpu-screen-recorder
+    swaylock
     kdePackages.kdenlive
     rofi
   ];
