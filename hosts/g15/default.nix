@@ -37,6 +37,9 @@
     options nvidia NVreg_EnableS0ixPowerManagement=1
   '';
 
+    # Temporary: D3 broken on kernel 7.3 + nvidia 615.78.08. Remove once fixed.
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_7_2;
+
   # PRIME offload: compositor runs on the AMD iGPU, the 3070 sits in runtime
   # D3 until something explicitly asks for it.
   hardware.nvidia = {    # Temporary: pinned to 615.71.09. 615.78.08 breaks runtime D3 and nvidia-smi.
