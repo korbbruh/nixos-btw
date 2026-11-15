@@ -37,10 +37,12 @@
     options nvidia NVreg_EnableS0ixPowerManagement=1
   '';
 
+  # 7.3.x breaks NVIDIA runtime D3 on the G15. LTS until a fixed mainline lands.
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+
   # PRIME offload: compositor runs on the AMD iGPU, the 3070 sits in runtime
   # D3 until something explicitly asks for it.
-  hardware.nvidia = {    # Temporary: pinned to 615.71.09. 615.78.08 breaks runtime D3 and nvidia-smi.
-    # Switch back to nvidiaPackages.latest once a fixed driver lands.
+  hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.latest;
     modesetting.enable = true;
     powerManagement.enable = true;
