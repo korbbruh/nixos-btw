@@ -182,6 +182,7 @@
     swaylock
     kdePackages.kdenlive
     rofi
+    fuzzel
   ];
 
   fonts.packages = with pkgs; [
