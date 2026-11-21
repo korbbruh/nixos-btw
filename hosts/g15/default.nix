@@ -37,14 +37,6 @@
     options nvidia NVreg_EnableS0ixPowerManagement=1
   '';
 
-  # 7.3.x breaks NVIDIA runtime D3 on the G15. LTS until a fixed mainline lands.
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
-
-    # Boot entry for retesting mainline RTD3. Delete once mainline works.
-  specialisation.mainline.configuration = {
-    boot.kernelPackages = lib.mkOverride 40 pkgs.linuxPackages_latest;
-  };
-
   # PRIME offload: compositor runs on the AMD iGPU, the 3070 sits in runtime
   # D3 until something explicitly asks for it.
   hardware.nvidia = {
@@ -55,7 +47,7 @@
     open = true;
   };
 
-  services.supergfxd.enable = true;
+  services.cardwired.enable = true;
 
   # ==========================================================================
   # Power (laptop-only; power-profiles-daemon and upower are in common.nix)
