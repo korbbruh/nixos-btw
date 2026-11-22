@@ -1,0 +1,10 @@
+[Unit]
+Description=Idle management
+After=graphical-session.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/swayidle timeout 450 '/usr/bin/swaylock -f' timeout 660 '/usr/bin/wlr-randr --output eDP-1 --off' resume '/usr/bin/wlr-randr --output eDP-1 --on' timeout 900 '/usr/bin/systemctl suspend' before-sleep '/usr/bin/swaylock -f'
+Restart=always
+RestartSec=3

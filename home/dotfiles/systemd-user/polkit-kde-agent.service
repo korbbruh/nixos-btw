@@ -1,0 +1,11 @@
+[Unit]
+Description=polkit-kde-authentication-agent-1
+After=graphical-session.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Environment=QT_QPA_PLATFORMTHEME=gnome
+ExecStart=/usr/lib/polkit-kde-authentication-agent-1
+Restart=always
+RestartSec=1
