@@ -1,0 +1,74 @@
+/* ~/.config/rofi/dmenu.rasi
+ * Text-mode theme for plain pickers (clipboard, emoji, power menus).
+ * No icons, no grid -- a tight vertical list. Colors inherited from
+ * colors.rasi so it follows theme-pick.sh theme switches automatically.
+ */
+@import "colors.rasi"
+
+* {
+    background-color: transparent;
+    text-color:       @foreground;
+    font:             "JetBrainsMono Nerd Font Propo 10";
+}
+
+window {
+    background-color: @background;
+    border-color:     @selected;
+    border:           1;
+    border-radius:    2px;
+    width:            600px;
+    padding:          6px;
+}
+
+mainbox {
+    background-color: transparent;
+    children:         [ inputbar, listview ];
+    padding:          4px;
+    spacing:          5px;
+}
+
+inputbar {
+    background-color: @on-selected;
+    border-color:     @selected;
+    border:           1;
+    border-radius:    2px;
+    padding:          4px 8px;
+    spacing:          4px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color:       @selected;
+}
+
+entry {
+    background-color: transparent;
+    text-color:       @foreground;
+    placeholder:      "";
+}
+
+listview {
+    background-color: transparent;
+    spacing:          2px;
+    padding:          4px 0;
+    lines:            10;
+    scrollbar:        false;
+    fixed-height:     false;
+}
+
+element {
+    background-color: transparent;
+    border-radius:    2px;
+    padding:          4px 8px;
+}
+
+element selected {
+    background-color: @selected;
+    text-color:       @on-selected;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+}

@@ -22,30 +22,30 @@ indicator-thickness=5
 indicator-caps-lock
 
 # --- ring colors (themed, bare hex) ---
-ring-color=101315
-ring-clear-color=798186
-ring-ver-color=798186
-ring-wrong-color=565d60
-ring-caps-lock-color=798186
+ring-color=32344a
+ring-clear-color=7aa2f7
+ring-ver-color=7aa2f7
+ring-wrong-color=f7768e
+ring-caps-lock-color=7aa2f7
 
 # --- inside of ring: semi-transparent bg ---
-inside-color=101315cc
-inside-clear-color=101315cc
-inside-ver-color=101315cc
-inside-wrong-color=101315cc
-inside-caps-lock-color=101315cc
+inside-color=1a1b26cc
+inside-clear-color=1a1b26cc
+inside-ver-color=1a1b26cc
+inside-wrong-color=1a1b26cc
+inside-caps-lock-color=1a1b26cc
 
 # --- text ---
-text-color=cacccc
-text-clear-color=cacccc
-text-ver-color=cacccc
-text-wrong-color=cacccc
-text-caps-lock-color=cacccc
+text-color=a9b1d6
+text-clear-color=a9b1d6
+text-ver-color=a9b1d6
+text-wrong-color=a9b1d6
+text-caps-lock-color=a9b1d6
 
 # --- highlights ---
-key-hl-color=798186
-bs-hl-color=565d60
-caps-lock-key-hl-color=798186
+key-hl-color=7aa2f7
+bs-hl-color=f7768e
+caps-lock-key-hl-color=7aa2f7
 
 # --- lines + separator: invisible ---
 separator-color=00000000

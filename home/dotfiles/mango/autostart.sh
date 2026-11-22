@@ -1,17 +1,38 @@
 #!/usr/bin/env bash
-# ~/.config/mango/autostart.sh
-#
-# Mango does not reach graphical-session.target on its own. These two lines
-# give the user manager the Wayland environment, then pull the target in, which
-# is what portals and xwayland-satellite (wantedBy graphical-session.target)
-# wait for. They run in order, NOT backgrounded: the target must not start
-# before the environment is imported.
-systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-systemctl --user start mango-session.target
+# SUPERSEDED: idle management now lives in systemd.user.services.swayidle
+# in ~/nixos/configuration.nix. Editing this file does nothing.
 
-#waybar &
-swaybg -i ~/Pictures/Wallpapers/macos-mojave-sand-dunes-mojave-desert-california-night-dark-5120x2880-4051.jpg &
-# Noctalia's FAQ: it doesn't manage its own autostart; use the compositor's.
-# (So programs.noctalia.systemd is off in desktop.nix: one launcher only.)
-noctalia &
-#noctalia msg session lock >/dev/null 2>&1
+#lockscreen
+#swaylock &
+
+# --- environment ---
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &
+systemctl --user start mango-session.target &
+systemctl --user start polkit-kde-agent &
+systemctl --user start swayosd &
+systemctl --user start xwayland-satellite &
+
+# --- bar + notifications ---
+waybar -c ~/.config/mango/config.jsonc &
+mako &
+
+# --- clipboard history (feeds clipboard.sh via cliphist) ---
+wl-clip-persist --clipboard regular --reconnect-tries 0 &
+wl-paste --type text --watch cliphist store >/dev/null &
+wl-paste --type image --watch cliphist store >/dev/null &
+
+# --- idle / lock / nightlight ---
+systemctl --user start swayidle &
+#~/.config/mango/bin/idle.sh &
+#~/.config/mango/bin/nightlight.sh &
+sway-audio-idle-inhibit >/dev/null & # don't idle while audio plays
+
+# --- wallpaper ---
+# Restore the last wallpaper; fall back to a default so you never cold-boot
+# to a black screen before the first theme switch.
+WALL_STATE="$HOME/.cache/current-wallpaper"
+if [ -r "$WALL_STATE" ] && [ -f "$(cat "$WALL_STATE")" ]; then
+  swaybg -m fill -i "$(cat "$WALL_STATE")" >/dev/null 2>&1 &
+else
+  swaybg -m fill -i ~/Pictures/Wallpapers/abstract-grayscale-layered-wavy-shapes.jpg >/dev/null 2>&1 &
+fi
