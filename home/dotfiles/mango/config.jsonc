@@ -3,8 +3,9 @@
   "layer": "top",
   "position": "top",
   "spacing": 0,
+  "margin": 2,
   "height": 26,
-  "width": 0,
+  "width": 1000,
   "modules-left": [
     "mango/workspaces",
     "mango/layout"
@@ -22,8 +23,8 @@
     "network",
     "pulseaudio",
     "cpu",
-    "custom/cpu-temp",
-    "memory",
+    //"custom/cpu-temp",
+    //"memory",
     "battery"
   ],
   "mango/workspaces": {
@@ -66,11 +67,6 @@
         "today": "<span background='#e5e5e5' color='#000000'><b>{}</b></span>"
       }
     }
-  },
-  "custom/distro": {
-    "format": " ",
-    "tooltip": false,
-    "on-click": "rofi -show drun -theme ~/.config/rofi/kev.rasi" // Optional: Click it to open your app launcher
   },
   "network": {
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
@@ -175,13 +171,6 @@
     "format": "|",
     "interval": 0
   },
-  //"mango/workspaces": {
-  //    "format": "{icon}",
-  //    "hide-empty": true,
-  //    "on-click": "activate",
-  //    "on-click-right": "toggle",
-  //    "overview-label": "OVERVIEW",
-  // },
   "mango/keymode": {
   	"format": "{}",
   	// "format-default": " Default",
@@ -194,8 +183,8 @@
   },
   "mango/layout": {
       "format": "[{}]",
-      // "format-S": "Scroller",
-      // "format-T": "Tile",
+       //"format-S": "Scroller",
+       //"format-T": "Tile",
   },
   "mango/language": {
   "format": "{short}"
