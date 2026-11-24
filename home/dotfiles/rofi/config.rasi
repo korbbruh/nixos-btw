@@ -93,7 +93,7 @@ element alternate.normal { background-color: @bg-alt;   text-color: @fg; }
 element selected.normal {
     background-color: @sel;
     text-color:       @on-sel;
-    border:           2px;
+    border:           1px;
     border-color:     @accent-c;
 }
 

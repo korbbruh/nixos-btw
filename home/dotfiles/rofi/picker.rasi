@@ -12,9 +12,9 @@
 
 window {
     background-color: @background;
-    border:           2px;
+    border:           1px;
     border-color:     @selected;
-    border-radius:    4px;
+    border-radius:    1px;
     width:            60%;
     padding:          12px;
 }

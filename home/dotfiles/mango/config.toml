@@ -26,8 +26,8 @@ shadows_color= 0x000000ff
 
 border_radius=1
 no_radius_when_single=0
-focused_opacity=1.0
-unfocused_opacity=0.97
+focused_opacity=0.9
+unfocused_opacity=0.85
 
 # Animation Configuration
 animations=1
@@ -92,7 +92,7 @@ overview_gap_outer=30
 idle_inhibit_when_fullscreen=1
 xwayland_persistence=1
 sync_obj_enable=1
-no_border_when_single=1
+no_border_when_single=0
 axis_bind_apply_timeout=100
 focus_on_activate=1
 sloppy_focus=1

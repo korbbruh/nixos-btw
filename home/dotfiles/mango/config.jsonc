@@ -3,9 +3,9 @@
   "layer": "top",
   "position": "top",
   "spacing": 0,
-  "margin": 2,
+  "margin": 0,
   "height": 26,
-  "width": 1000,
+  //"width": 1200,
   "modules-left": [
     "mango/workspaces",
     "mango/layout"
